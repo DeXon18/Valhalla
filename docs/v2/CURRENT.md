@@ -4,45 +4,38 @@ Estado: `AWAITING_OWNER_REVIEW`
 
 ## Tarea autorizada
 
-FASE 3.1 — Contratos principales del sistema de agentes.
+FASE 3.2 — Rules mínimas necesarias para operar Valhalla.
 
 ## Resultado observable
 
-Gemini puede entrar en Valhalla y entender con claridad:
-
-- quién decide;
-- qué trabajo está autorizado;
-- qué papel tiene cada agente;
-- que RUMBO.md gobierna la ejecución;
-- que CURRENT.md limita el alcance;
-- que BACKLOG.md no autoriza implementación.
+Gemini dispone de reglas concretas para trabajar en el entorno correcto, respetar CURRENT, integrar mediante GitHub y proteger comportamiento aceptado, sin duplicar RUMBO.md ni construir todo el catálogo previsto.
 
 ## Scope incluido
 
-- Crear `AGENTS.md`.
-- Crear `GEMINI.md`.
-- Referenciar `RUMBO.md` sin duplicarlo.
-- Delimitar responsabilidades de Oskar, ChatGPT y Gemini.
+Crear únicamente estas reglas:
+
+- `execution-environment.md`
+- `github-source-of-truth.md`
+- `section-scope.md`
+- `accepted-locked.md`
 
 ## Scope excluido
 
-- Crear Rules.
+- Crear el resto del catálogo de Rules.
 - Crear Workflows.
-- Instalar Skills.
+- Crear Skills.
 - Configurar MCP.
 - Implementar producto.
 - Preparar Production.
 
 ## Criterio de aceptación
 
-Los contratos permiten a Gemini trabajar sobre Valhalla sin ampliar scope ni asumir responsabilidades del propietario o de ChatGPT.
+Las cuatro reglas resuelven necesidades operativas actuales y cada una añade instrucciones que no conviene repetir en AGENTS.md.
 
 ## Estado previo
 
-- FASE 0: completada y aceptada.
-- FASE 1: infraestructura base preparada; servicios web y exposición diferidos hasta existir aplicación.
-- FASE 2: repositorio, ramas permanentes y workspace Development preparados; PR, CI y releases se activarán cuando exista trabajo que los necesite.
+FASE 3.1 — Contratos principales: `ACCEPTED_LOCKED`.
 
 ## Después de aceptar
 
-Siguiente candidato: FASE 3.2 — Rules, generadas únicamente según necesidad real.
+Siguiente candidato: FASE 3.3 — Workflows mínimos necesarios.
