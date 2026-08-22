@@ -4,38 +4,56 @@ Estado: `AWAITING_OWNER_REVIEW`
 
 ## Tarea autorizada
 
-FASE 3.3 — Workflows mínimos necesarios para operar Valhalla.
+Corrección de baseline — consolidar el sistema de agentes bajo una única raíz `.agents/`.
+
+## Motivo
+
+La estructura aceptada mantenía Rules y Workflows bajo dos raíces distintas.
+
+La corrección unifica el contexto operativo del workspace para evitar ambigüedad.
 
 ## Resultado observable
 
-Gemini dispone de procedimientos breves para iniciar una tarea, enviar un cambio mediante GitHub y entregar el resultado al propietario para revisión.
+Existe una única raíz `.agents/`:
+
+- `.agents/rules/`
+- `.agents/workflows/`
+- `.agents/skills/` cuando sea necesaria;
+- `.agents/integrations/` cuando sea necesaria.
+
+La raíz legacy singular ha sido eliminada.
 
 ## Scope incluido
 
-Crear únicamente:
-
-- `start-session.md`
-- `submit-change.md`
-- `owner-review.md`
+- mover las cuatro Rules existentes a `.agents/rules/`;
+- actualizar `VALHALLA.md` para reflejar una única raíz `.agents/`;
+- comprobar que no quedan referencias activas a la raíz legacy.
 
 ## Scope excluido
 
-- Crear el resto del catálogo de Workflows.
-- Crear Skills.
-- Configurar MCP.
-- Implementar producto.
-- Crear flujo de Production.
-- Crear procedimientos para problemas que todavía no han ocurrido.
+- modificar contenido funcional de las Rules;
+- modificar Workflows;
+- crear Skills;
+- crear Integrations o MCP;
+- Bootstrap Astro;
+- cualquier cambio de producto.
 
 ## Criterio de aceptación
 
-Los tres workflows describen el trabajo que ya necesitamos realizar y no duplican innecesariamente RUMBO.md, AGENTS.md ni las Rules.
+- existe una única raíz `.agents/`;
+- las cuatro Rules existen bajo `.agents/rules/`;
+- los Workflows existentes permanecen bajo `.agents/workflows/`;
+- no quedan referencias a la raíz legacy;
+- `git diff --check` finaliza sin errores.
 
 ## Estado previo
 
 - FASE 3.1 — Contratos principales: `ACCEPTED_LOCKED`.
-- FASE 3.2 — Rules mínimas: `ACCEPTED_LOCKED`.
+- FASE 3.2 — Rules: `ACCEPTED_LOCKED`, reabierta únicamente para esta corrección estructural.
+- FASE 3.3 — Workflows: `ACCEPTED_LOCKED`.
+
+FASE 4.1 permanece pausada hasta integrar esta corrección.
 
 ## Después de aceptar
 
-Siguiente candidato: FASE 3.4 — Skills técnicas, únicamente si existe una necesidad concreta.
+Reanudar FASE 4.1 — Bootstrap Astro.

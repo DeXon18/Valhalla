@@ -587,11 +587,9 @@ VALHALLA_V2
 │   │   │   └── DEPLOYMENTS.md
 │   │   │       └── historial útil cuando exista
 │   │   │
-│   │   ├── .agent/
-│   │   │   └── rules/
-│   │   │       └── reglas específicas del workspace que realmente se necesiten
-│   │   │
 │   │   └── .agents/
+│   │       ├── rules/
+│   │       │   └── reglas específicas del workspace que realmente se necesiten
 │   │       ├── skills/
 │   │       │   └── skills instaladas/propias necesarias
 │   │       ├── workflows/
