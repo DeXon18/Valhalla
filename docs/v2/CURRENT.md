@@ -4,55 +4,45 @@ Estado: `AWAITING_OWNER_REVIEW`
 
 ## Tarea autorizada
 
-FASE 0.2 — Responsabilidades.
+FASE 3.1 — Contratos principales del sistema de agentes.
 
 ## Resultado observable
 
-Las responsabilidades quedan delimitadas sin solapamientos innecesarios:
+Gemini puede entrar en Valhalla y entender con claridad:
 
-- Oskar decide producto, prioridades, alcance y aceptación final.
-- ChatGPT prepara servidor, arquitectura, sistema de agentes y soporte técnico cuando corresponda.
-- Gemini es el agente principal de implementación y construcción de Valhalla.
+- quién decide;
+- qué trabajo está autorizado;
+- qué papel tiene cada agente;
+- que RUMBO.md gobierna la ejecución;
+- que CURRENT.md limita el alcance;
+- que BACKLOG.md no autoriza implementación.
 
-## Límites
+## Scope incluido
 
-### Oskar
-
-- Autoriza `CURRENT`.
-- Decide cambios de producto y prioridades.
-- Acepta o rechaza resultados.
-- Puede ordenar `REPLANIFICAMOS`.
-
-### ChatGPT
-
-- Prepara infraestructura y entorno cuando `CURRENT` lo autorice.
-- Define o revisa arquitectura y sistema de agentes cuando sean necesarios.
-- Ayuda a analizar bloqueos, riesgos y decisiones técnicas.
-- No desarrolla Valhalla por defecto.
-
-### Gemini
-
-- Implementa `CURRENT`.
-- Opera el workspace y ejecuta las validaciones pertinentes.
-- Usa GitHub conforme al flujo definido cuando esté preparado.
-- No amplía scope ni decide producto por su cuenta.
+- Crear `AGENTS.md`.
+- Crear `GEMINI.md`.
+- Referenciar `RUMBO.md` sin duplicarlo.
+- Delimitar responsabilidades de Oskar, ChatGPT y Gemini.
 
 ## Scope excluido
 
-- Crear todavía `AGENTS.md` o `GEMINI.md`.
-- Preparar servidor o infraestructura.
-- Configurar GitHub.
-- Instalar skills, MCP o tooling.
+- Crear Rules.
+- Crear Workflows.
+- Instalar Skills.
+- Configurar MCP.
 - Implementar producto.
+- Preparar Production.
 
 ## Criterio de aceptación
 
-El propietario confirma que esta división de responsabilidades refleja cómo debe operar Valhalla.
+Los contratos permiten a Gemini trabajar sobre Valhalla sin ampliar scope ni asumir responsabilidades del propietario o de ChatGPT.
 
 ## Estado previo
 
-FASE 0.1 — Gobierno del proyecto: `ACCEPTED_LOCKED`.
+- FASE 0: completada y aceptada.
+- FASE 1: infraestructura base preparada; servicios web y exposición diferidos hasta existir aplicación.
+- FASE 2: repositorio, ramas permanentes y workspace Development preparados; PR, CI y releases se activarán cuando exista trabajo que los necesite.
 
 ## Después de aceptar
 
-Siguiente candidato: FASE 0.3 — Flujo de ejecución.
+Siguiente candidato: FASE 3.2 — Rules, generadas únicamente según necesidad real.
