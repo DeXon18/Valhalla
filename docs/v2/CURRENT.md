@@ -1,64 +1,65 @@
 # CURRENT
 
-Estado: `AWAITING_OWNER_REVIEW`
+Estado: `IN_PROGRESS`
 
 ## Tarea autorizada
 
-FASE 4.1 — Bootstrap Astro.
+FASE 4.2 — UI base.
 
 ## Resultado observable
 
-Existe una primera aplicación Valhalla ejecutable en Development usando Astro SSR con adaptador Node y TypeScript estricto.
+Valhalla dispone de una base visual mínima y reutilizable sobre Astro mediante Tailwind CSS, con tokens explícitos para color, tipografía, espaciado y estados.
 
 ## Scope incluido
 
-- inicializar el proyecto Astro en el repositorio existente;
-- configurar modo SSR;
-- usar `@astrojs/node`;
-- configurar TypeScript strict;
-- crear la estructura mínima necesaria bajo `src/`;
-- definir scripts npm mínimos para desarrollo y build;
-- generar y versionar `package-lock.json`;
-- incluir una página mínima que permita comprobar que la aplicación arranca;
-- validar que el proyecto puede ejecutarse y compilarse.
-
-Las versiones exactas de Astro, `@astrojs/node` y dependencias deberán verificarse contra documentación oficial antes de instalarlas.
+- integrar Tailwind CSS con Astro/Vite;
+- verificar antes de instalar las versiones estables compatibles de:
+  - `tailwindcss`;
+  - `@tailwindcss/vite`;
+- crear la hoja de estilos global mínima necesaria;
+- definir design tokens básicos coherentes con `DESIGN.md`;
+- establecer tipografía base para títulos y cuerpo/UI;
+- establecer una escala de spacing mínima;
+- definir estados visuales básicos reutilizables;
+- aplicar la base visual a la página mínima existente para comprobarla;
+- validar instalación y build.
 
 ## Scope excluido
 
-- Tailwind y sistema visual;
-- diseño definitivo;
-- responsive;
-- internacionalización ES/EN;
-- Drizzle o integración PostgreSQL;
+- Responsive Foundation de FASE 4.3;
+- layouts específicos de móvil, tablet o desktop;
+- App Shell;
+- navegación;
+- i18n;
+- persistencia;
 - autenticación;
-- App Shell completa;
-- tests adicionales sin comportamiento que proteger;
+- componentes de producto;
+- identidad visual definitiva o decoración nórdica avanzada;
+- motion;
 - Production;
-- Cloudflare;
-- Skills o MCP sin necesidad concreta.
+- tooling adicional sin necesidad concreta.
 
 ## Criterio de aceptación
 
-- `npm install` produce dependencias reproducibles mediante `package-lock.json`;
-- Astro está configurado como SSR con Node;
-- TypeScript utiliza configuración estricta;
-- la aplicación mínima arranca correctamente en Development;
+- Tailwind está integrado mediante la vía compatible con el stack actual;
+- las dependencias quedan fijadas y reproducibles en `package-lock.json`;
+- existe una fuente única y comprensible para los tokens básicos;
+- la página mínima demuestra color, tipografía, spacing y estados sin convertirse en una pantalla de producto;
 - `npm run build` finaliza correctamente;
-- no se ha incorporado funcionalidad perteneciente a fases posteriores.
+- no se ha adelantado trabajo de FASE 4.3 o posteriores.
 
 ## Estado previo
 
-FASE 3 — Sistema de agentes base: `ACCEPTED_LOCKED`.
-
-Las Skills e integraciones del catálogo permanecen diferidas y se crearán únicamente cuando una tarea real las necesite.
+FASE 4.1 — Bootstrap Astro: `ACCEPTED_LOCKED`.
 
 ## Responsable principal
 
 Gemini implementa CURRENT.
 
-ChatGPT apoya en verificación técnica, arquitectura o bloqueos reales.
+Oskar decide cualquier elección visual que cambie materialmente la identidad definida.
+
+ChatGPT apoya en compatibilidad técnica, arquitectura o bloqueos reales.
 
 ## Después de aceptar
 
-Siguiente candidato: FASE 4.2 — UI base.
+Siguiente candidato: FASE 4.3 — Responsive Foundation.
