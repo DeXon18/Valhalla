@@ -6,7 +6,7 @@ export const es = {
   page: {
     title: 'Valhalla — UI Base (Muestra Técnica)',
     heading: 'Muestra Técnica UI Base',
-    description: 'Comprobación técnica de tokens semánticos: superficies, bordes, tipografía, espaciado y estados visuales (FASE 4.2 / 4.3).',
+    description: 'Comprobación técnica de tokens semánticos y componentes foundation: Button, Card, TextInput, FeedbackState y estados visuales (FASE 5.3).',
   },
   notFound: {
     title: 'Valhalla — Página no encontrada',
@@ -33,13 +33,32 @@ export const es = {
   },
   sections: {
     surfaces: 'Superficies y Bordes',
+    cards: 'Cards & Contenedores',
+    inputs: 'Campos de Texto (TextInput)',
     spacing: 'Escala de Spacing',
     controls: 'Controles, Estados y Badges',
+    feedbackDemo: 'Estados de Feedback (FeedbackState)',
   },
   surfaces: {
     background: 'Background',
     surface: 'Surface',
     raised: 'Raised Surface',
+  },
+  cards: {
+    surfaceTitle: 'Card Surface',
+    surfaceDesc: 'Contenedor visual básico para agrupar contenido principal.',
+    raisedTitle: 'Card Raised',
+    raisedDesc: 'Nivel adicional de separación visual para bloques destacados.',
+  },
+  inputs: {
+    normalLabel: 'Nombre de usuario',
+    normalPlaceholder: 'Introduce tu nombre',
+    withHelpLabel: 'Correo electrónico',
+    withHelpPlaceholder: 'usuario@ejemplo.com',
+    withHelpText: 'Utilizaremos este correo para comunicaciones sobre tu cuenta.',
+    withErrorLabel: 'Contraseña',
+    withErrorValue: '1234',
+    withErrorMessage: 'La contraseña debe tener al menos 8 caracteres.',
   },
   actions: {
     primary: 'Primary',

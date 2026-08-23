@@ -1,0 +1,19 @@
+---
+type Variant = 'surface' | 'raised';
+
+interface Props {
+	variant?: Variant;
+	class?: string;
+}
+
+const { variant = 'surface', class: className = '' } = Astro.props;
+
+const variantStyles =
+	variant === 'raised'
+		? 'bg-raised border-border text-foreground'
+		: 'bg-surface border-border text-foreground';
+---
+
+<div class={`rounded border p-4 sm:p-6 ${variantStyles} ${className}`.trim()}>
+	<slot />
+</div>

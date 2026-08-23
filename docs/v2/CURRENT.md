@@ -4,184 +4,339 @@ Estado: `AWAITING_OWNER_REVIEW`
 
 ## Tarea autorizada
 
-FASE 5.2 — Sistema visual.
+FASE 5.3 — Componentes.
 
 ## Resultado observable
 
-La identidad aceptada de Valhalla queda traducida a un sistema visual coherente y suficientemente concreto para orientar los componentes de FASE 5.3 sin rediseñar la foundation técnica ya aceptada.
+Valhalla dispone de una foundation mínima de componentes visuales reutilizables y coherentes con `Linear Calm`, visible en la muestra técnica actual y preparada para ser utilizada posteriormente por las pantallas reales del producto.
+
+La fase debe reducir duplicación visual existente sin crear una librería de componentes generalista ni anticipar necesidades de producto todavía inexistentes.
 
 ## Baseline preservada
 
 Se conserva:
 
 - FASE 5.1 — Identidad: `ACCEPTED_LOCKED`;
-- `Linear Calm` como sistema cromático;
-- valores actuales de `src/styles/themes.css`;
-- uso exclusivo de tokens cromáticos semánticos en la UI;
-- jerarquía de superficies:
-  - background;
-  - surface;
-  - raised;
-- acento primario azul-violeta desaturado;
-- success, warning y danger como colores semánticos y no de marca;
-- spacing base de `0.25rem`;
-- Responsive Foundation aceptada;
-- ausencia de glow, neón y grandes superficies saturadas.
-
-No se reabre ninguna de estas decisiones salvo contradicción demostrable.
-
-## Scope incluido
-
-Consolidar principalmente `DESIGN.md` para definir:
-
-### Paleta
-
-Documentar la función de los roles cromáticos existentes sin modificar sus valores.
-
-Debe quedar claro:
-
-- `background` es el plano base;
-- `surface` agrupa contenido;
-- `raised` proporciona un nivel adicional de separación cuando sea necesario;
-- `border` y `border-subtle` separan estructura sin dominar visualmente;
-- `foreground` contiene información principal;
-- `muted` contiene información secundaria;
-- `primary` identifica acción, selección, foco o énfasis relevante;
-- `primary-subtle` permite énfasis contenido;
-- success, warning y danger solo comunican estado semántico.
-
-No usar `primary` como decoración general.
-
-Los valores concretos continúan teniendo como fuente de verdad `src/styles/themes.css`.
-
-### Tipografía
-
-Ratificar como baseline:
-
-- pila tipográfica de sistema actualmente definida para `font-heading` y `font-body`;
-- no añadir fuentes externas;
-- títulos robustos mediante jerarquía, peso y espaciado;
-- cuerpo e interfaz prioritariamente legibles;
-- diferenciación entre heading y body mediante tratamiento tipográfico, no necesariamente mediante familias diferentes;
-- uppercase y tracking amplio solo cuando exista una función clara de jerarquía o etiquetado;
-- evitar tipografías rúnicas, medievales o decorativas en la interfaz funcional.
-
-No convertir las escalas concretas de la muestra técnica en reglas universales del producto.
-
-### Geometría
-
-Definir como dirección visual:
-
-- geometría simple y contemporánea;
-- radios pequeños y contenidos como baseline;
-- bordes discretos de baja presencia visual;
+- FASE 5.2 — Sistema visual: `ACCEPTED_LOCKED`;
+- `Linear Calm`;
+- tokens cromáticos existentes;
+- tipografía de sistema;
+- geometría simple y radios contenidos;
 - superficies predominantemente planas;
-- evitar formas excesivamente redondeadas;
-- evitar geometría agresiva o ornamental;
-- no utilizar escudos, cortes angulares o formas nórdicas como estructura obligatoria de controles;
-- la geometría temática solo puede aparecer como acento cuando tenga sentido contextual.
+- profundidad mediante luminosidad, bordes y espacio;
+- responsive foundation;
+- App Shell existente;
+- i18n ES / EN;
+- comportamiento de routing aceptado;
+- `FeedbackState` como foundation de loading / empty / error;
+- `LanguageSwitcher` como selector de idioma.
 
-No crear todavía un sistema complejo de tokens de radius si los componentes actuales no lo necesitan.
+No rediseñar esas decisiones.
 
-### Elevación y profundidad
+## Principio de implementación
 
-La profundidad debe depender principalmente de:
+Crear componentes solo cuando exista una necesidad real observable.
 
-- luminosidad de las superficies;
-- bordes;
-- composición y separación espacial.
+En esta fase se justifican:
 
-Las sombras no forman parte de la baseline por defecto.
+- `Button`;
+- `Card`;
+- `TextInput`.
 
-Solo deben incorporarse posteriormente cuando comuniquen elevación o interacción de forma funcional.
+No crear una librería completa ni componentes genéricos para necesidades futuras hipotéticas.
 
-### Lenguaje visual
+## Button
 
-Valhalla debe sentirse:
+Crear un componente reutilizable equivalente a:
 
-- oscuro pero legible;
-- fuerte pero no agresivo;
-- preciso;
-- contenido;
-- contemporáneo;
-- denso solo cuando la información lo requiera;
-- reconocible por jerarquía y coherencia, no por ornamentación.
+- `src/components/Button.astro`.
 
-Reglas:
+Debe cubrir como mínimo:
 
-- un solo acento de marca dominante;
+- variante primaria;
+- variante secundaria;
+- uso como `<button>`;
+- uso como enlace cuando exista `href`;
+- estado `disabled` únicamente cuando semánticamente corresponda a un botón;
+- foco visible;
+- hover existente;
+- contenido mediante slot;
+- estilos basados exclusivamente en tokens semánticos existentes.
+
+La API debe ser pequeña.
+
+No introducir variantes únicamente porque podrían ser útiles en el futuro.
+
+No crear:
+
+- icon buttons;
+- loading buttons;
+- split buttons;
+- tamaños múltiples salvo necesidad demostrada;
+- componentes React;
+- JavaScript cliente.
+
+Cuando sea razonable, reutilizar `Button` en acciones foundation ya existentes que actualmente duplican el mismo patrón visual, especialmente:
+
+- `FeedbackState`;
+- 404.
+
+No forzar la reutilización si empeora la semántica.
+
+## Card
+
+Crear un componente reutilizable equivalente a:
+
+- `src/components/Card.astro`.
+
+Debe representar el contenedor visual básico de Valhalla:
+
+- superficie;
+- borde;
+- radio contenido;
+- padding;
+- slot de contenido.
+
+Puede permitir `surface` / `raised` únicamente si esa distinción resulta útil para los usos actuales.
+
+No añadir:
+
+- shadows por defecto;
+- headers complejos;
+- footers;
+- actions API;
+- layouts internos;
+- variantes temáticas;
+- geometría ornamental.
+
+La semántica HTML del contenido debe seguir perteneciendo al consumidor cuando sea necesario.
+
+## TextInput
+
+Crear una primitive de campo de texto equivalente a:
+
+- `src/components/TextInput.astro`.
+
+Debe cubrir como mínimo:
+
+- `id`;
+- `name`;
+- label visible;
+- tipo de input razonablemente necesario;
+- placeholder opcional;
+- required;
+- disabled;
+- texto de ayuda opcional;
+- mensaje de error opcional;
+- foco visible;
+- estado de error mediante token `danger`;
+- relación accesible entre input, ayuda y error;
+- `aria-invalid` cuando exista error.
+
+La label no puede sustituirse únicamente por placeholder.
+
+No crear:
+
+- validación JavaScript;
+- formularios funcionales;
+- lógica de negocio;
+- integración con base de datos;
+- floating labels;
+- máscaras;
+- autocomplete avanzado;
+- select;
+- textarea;
+- checkbox;
+- radio;
+- date picker.
+
+Esos controles se crearán cuando exista una necesidad funcional real.
+
+## Navegación
+
+La foundation actual ya dispone de:
+
+- `AppShell`;
+- navegación Home / Inicio;
+- `LanguageSwitcher`;
+- estado actual mediante `aria-current`.
+
+No crear destinos ni navegación de producto inexistentes.
+
+No crear un componente `NavLink` genérico únicamente para abstraer un único enlace actual.
+
+Solo ajustar navegación si existe una inconsistencia visual objetiva con el sistema aceptado.
+
+## Feedback
+
+`FeedbackState` sigue siendo la foundation para:
+
+- loading;
+- empty;
+- error.
+
+Preservar:
+
+- semántica accesible;
+- `aria-live`;
+- `aria-busy`;
+- `role="alert"` cuando corresponda;
+- acción opcional.
+
+Puede reutilizar `Button` para su acción si ello reduce duplicación sin alterar comportamiento.
+
+No crear sistemas de toast, snackbar, modal o notificaciones globales.
+
+## Muestra visual
+
+Actualizar `UiFoundationDemo.astro` para que la muestra técnica consuma los componentes foundation reales en vez de duplicar sus estilos.
+
+La muestra debe permitir inspeccionar visualmente, como mínimo:
+
+- Button primary;
+- Button secondary;
+- Button disabled;
+- Card;
+- TextInput normal;
+- TextInput con ayuda;
+- TextInput con error;
+- Feedback loading;
+- Feedback empty;
+- Feedback error.
+
+Debe seguir disponible en:
+
+- `/`;
+- `/en/`.
+
+Todo texto visible debe mantener paridad ES / EN mediante la infraestructura i18n existente.
+
+La muestra sigue siendo técnica.
+
+No convertirla en Dashboard, landing ni pantalla ficticia de producto.
+
+## Componentes no requeridos
+
+No formalizar todavía componentes para:
+
+- badges;
+- tabs;
+- modal;
+- dialog;
+- dropdown;
+- tooltip;
+- toast;
+- table;
+- pagination;
+- sidebar;
+- breadcrumbs;
+- avatar;
+- chart;
+- accordion;
+- command palette;
+- date picker.
+
+Su existencia futura debe estar justificada por una necesidad real.
+
+## Diseño
+
+Los componentes deben respetar `DESIGN.md`.
+
+En particular:
+
 - jerarquía antes que decoración;
-- contraste antes que efectos;
+- un solo acento de marca dominante;
+- `primary` no se usa como decoración general;
 - superficies antes que sombras;
-- espacio antes que separadores innecesarios;
-- temática nórdica como acento;
-- evitar gradientes decorativos, glow y ruido visual;
-- no transformar cada elemento de interfaz en una pieza de branding.
+- bordes discretos;
+- radios pequeños y contenidos;
+- claridad antes que metáfora;
+- affordances convencionales;
+- sin estética RPG, gamer o ornamental.
 
-### Relación con la implementación actual
+Actualizar `DESIGN.md` únicamente si resulta necesario documentar reglas reutilizables de componentes que no estén ya cubiertas.
 
-Auditar:
-
-- `src/styles/themes.css`;
-- `src/styles/global.css`;
-- componentes foundation existentes.
-
-Si ya cumplen las decisiones anteriores, no modificarlos.
-
-No hacer cambios de código únicamente para “formalizar” algo que ya funciona.
+No duplicar documentación existente.
 
 ## Scope excluido
 
-- nuevos colores;
-- cambios de valores de `Linear Calm`;
-- temas adicionales;
-- fuente externa;
+- nuevas rutas de producto;
+- Dashboard;
+- rutinas;
+- ejercicios;
+- entrenamientos;
+- progreso;
+- perfil;
+- settings;
+- autenticación;
+- datos ficticios de producto;
+- nuevas tablas;
+- nuevas migraciones;
+- cambios de paleta;
+- nuevos tokens cromáticos;
+- fuentes externas;
+- iconografía;
 - logo;
-- logotipo;
-- emblema definitivo;
-- iconografía concreta;
-- ilustraciones;
-- componentes nuevos;
-- rediseño de App Shell;
-- cambios responsive;
 - motion;
-- microinteracciones;
-- validación WCAG exhaustiva;
-- componentes de producto;
-- rutas funcionales.
-
-FASE 5.3 definirá componentes.
-
-FASE 5.4 definirá motion.
-
-FASE 5.5 realizará la consolidación de accesibilidad.
+- animaciones;
+- nuevas dependencias;
+- React;
+- client-side router;
+- Production;
+- Cloudflare.
 
 ## Criterio de aceptación
 
-- `Linear Calm` permanece sin cambios;
-- los roles cromáticos quedan documentados;
-- la estrategia tipográfica queda explícita;
-- la geometría queda definida sin tematización excesiva;
-- queda definida la estrategia de profundidad/elevación;
-- el lenguaje visual queda suficientemente concreto para orientar FASE 5.3;
-- no se confunden decisiones de la muestra técnica con reglas universales;
-- no se introducen dependencias;
-- no se realizan cambios de código innecesarios;
+- existe `Button` reutilizable;
+- existe `Card` reutilizable;
+- existe `TextInput` reutilizable;
+- `FeedbackState` continúa funcionando;
+- navegación existente continúa funcionando;
+- la muestra técnica consume las primitives reales;
+- `/` y `/en/` mantienen paridad visual y funcional;
+- no se inventan funcionalidades de producto;
+- no se introducen nuevas dependencias;
+- no existe overflow horizontal a 360 CSS px;
+- la foundation funciona correctamente en desktop;
+- navegación por teclado y foco siguen siendo utilizables;
+- `npm run check` finaliza con 0 errores;
+- `npm run build` finaliza correctamente;
+- `npm audit --omit=dev` mantiene 0 vulnerabilidades;
 - `git diff --check` está limpio.
+
+## Validación visual requerida
+
+Antes de aceptación final revisar como mínimo:
+
+- viewport móvil real de 360 CSS px;
+- desktop de 1440 CSS px;
+- `/`;
+- `/en/`;
+- estados normal, disabled y error visibles en la muestra.
+
+La validación debe comprobar:
+
+- jerarquía;
+- spacing;
+- legibilidad;
+- consistencia entre componentes;
+- ausencia de overflow;
+- que la interfaz sigue sintiéndose `Linear Calm`.
 
 ## Estado previo
 
 - FASE 4 — Fundación técnica: `ACCEPTED_LOCKED`.
 - FASE 5.1 — Identidad: `ACCEPTED_LOCKED`.
+- FASE 5.2 — Sistema visual: `ACCEPTED_LOCKED`.
 
 ## Responsable principal
 
-Oskar acepta las decisiones visuales.
+Gemini implementa los componentes y la muestra técnica.
 
-Gemini consolida la documentación e implementación estrictamente necesaria.
+ChatGPT apoya en arquitectura de componentes, semántica, accesibilidad foundation y revisión de scope.
 
-ChatGPT apoya en coherencia del sistema, límites de scope y revisión técnica.
+Oskar realiza la aceptación visual y funcional.
 
 ## Después de aceptar
 
-Siguiente candidato: FASE 5.3 — Componentes.
+Siguiente candidato: FASE 5.4 — Motion.

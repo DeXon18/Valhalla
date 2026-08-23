@@ -1,4 +1,8 @@
 ---
+import Card from './Card.astro';
+import Button from './Button.astro';
+import TextInput from './TextInput.astro';
+import FeedbackState from './FeedbackState.astro';
 import type { Translations } from '../i18n/es';
 
 interface Props {
@@ -20,8 +24,8 @@ const { messages: t } = Astro.props;
 
 <!-- Contenedor adaptativo para secciones técnicas en tablet y desktop -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 min-w-0">
-	<!-- Superficies y bordes -->
-	<section class="bg-surface border border-border rounded p-4 space-y-3 min-w-0">
+	<!-- Superficies y bordes (Card base) -->
+	<Card variant="surface" class="space-y-3 min-w-0">
 		<h2 class="text-xs uppercase tracking-wider text-muted font-semibold">
 			{t.sections.surfaces}
 		</h2>
@@ -36,63 +40,70 @@ const { messages: t } = Astro.props;
 				<span class="text-foreground">{t.surfaces.raised}</span>
 			</div>
 		</div>
-	</section>
+	</Card>
 
-	<!-- Spacing -->
-	<section class="bg-surface border border-border rounded p-4 space-y-3 min-w-0">
+	<!-- Cards & Contenedores -->
+	<Card variant="surface" class="space-y-3 min-w-0">
 		<h2 class="text-xs uppercase tracking-wider text-muted font-semibold">
-			{t.sections.spacing}
+			{t.sections.cards}
 		</h2>
-		<div class="space-y-2 text-xs text-muted">
-			<div class="flex items-center gap-2 min-w-0">
-				<span class="w-12 shrink-0">p-1:</span>
-				<div class="bg-primary-subtle border border-primary p-1 text-primary">1 (4px)</div>
-			</div>
-			<div class="flex items-center gap-2 min-w-0">
-				<span class="w-12 shrink-0">p-2:</span>
-				<div class="bg-primary-subtle border border-primary p-2 text-primary">2 (8px)</div>
-			</div>
-			<div class="flex items-center gap-2 min-w-0">
-				<span class="w-12 shrink-0">p-3:</span>
-				<div class="bg-primary-subtle border border-primary p-3 text-primary">3 (12px)</div>
-			</div>
-			<div class="flex items-center gap-2 min-w-0">
-				<span class="w-12 shrink-0">p-4:</span>
-				<div class="bg-primary-subtle border border-primary p-4 text-primary">4 (16px)</div>
-			</div>
+		<div class="space-y-3 text-xs">
+			<Card variant="surface" class="space-y-1">
+				<div class="font-semibold text-foreground">{t.cards.surfaceTitle}</div>
+				<p class="text-muted leading-relaxed">{t.cards.surfaceDesc}</p>
+			</Card>
+			<Card variant="raised" class="space-y-1">
+				<div class="font-semibold text-foreground">{t.cards.raisedTitle}</div>
+				<p class="text-muted leading-relaxed">{t.cards.raisedDesc}</p>
+			</Card>
 		</div>
-	</section>
+	</Card>
 </div>
 
-<!-- Controles, Estados y Badges -->
-<section class="bg-surface border border-border rounded p-4 space-y-3 min-w-0">
+<!-- Spacing Scale -->
+<Card variant="surface" class="space-y-3 min-w-0">
+	<h2 class="text-xs uppercase tracking-wider text-muted font-semibold">
+		{t.sections.spacing}
+	</h2>
+	<div class="space-y-2 text-xs text-muted">
+		<div class="flex items-center gap-2 min-w-0">
+			<span class="w-12 shrink-0">p-1:</span>
+			<div class="bg-primary-subtle border border-primary p-1 text-primary">1 (4px)</div>
+		</div>
+		<div class="flex items-center gap-2 min-w-0">
+			<span class="w-12 shrink-0">p-2:</span>
+			<div class="bg-primary-subtle border border-primary p-2 text-primary">2 (8px)</div>
+		</div>
+		<div class="flex items-center gap-2 min-w-0">
+			<span class="w-12 shrink-0">p-3:</span>
+			<div class="bg-primary-subtle border border-primary p-3 text-primary">3 (12px)</div>
+		</div>
+		<div class="flex items-center gap-2 min-w-0">
+			<span class="w-12 shrink-0">p-4:</span>
+			<div class="bg-primary-subtle border border-primary p-4 text-primary">4 (16px)</div>
+		</div>
+	</div>
+</Card>
+
+<!-- Controles (Button), Estados y Badges -->
+<Card variant="surface" class="space-y-3 min-w-0">
 	<h2 class="text-xs uppercase tracking-wider text-muted font-semibold">
 		{t.sections.controls}
 	</h2>
 
-	<!-- Botones adaptativos mobile-first -->
+	<!-- Botones adaptativos mobile-first reutilizando Button.astro -->
 	<div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3">
-		<button
-			type="button"
-			class="bg-primary text-primary-foreground font-semibold px-4 py-2 rounded text-sm text-center hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary cursor-pointer w-full sm:w-auto"
-		>
+		<Button variant="primary" type="button" class="w-full sm:w-auto">
 			{t.actions.primary}
-		</button>
+		</Button>
 
-		<button
-			type="button"
-			class="bg-raised text-foreground font-semibold px-4 py-2 rounded text-sm text-center border border-border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary cursor-pointer w-full sm:w-auto"
-		>
+		<Button variant="secondary" type="button" class="w-full sm:w-auto">
 			{t.actions.secondary}
-		</button>
+		</Button>
 
-		<button
-			type="button"
-			disabled
-			class="bg-primary text-primary-foreground font-semibold px-4 py-2 rounded text-sm text-center opacity-40 cursor-not-allowed w-full sm:w-auto"
-		>
+		<Button variant="primary" type="button" disabled class="w-full sm:w-auto">
 			{t.actions.disabled}
-		</button>
+		</Button>
 	</div>
 
 	<!-- Badges semánticos flexibles -->
@@ -114,4 +125,60 @@ const { messages: t } = Astro.props;
 			{t.states.selected}
 		</div>
 	</div>
-</section>
+</Card>
+
+<!-- Campos de Texto (TextInput) -->
+<Card variant="surface" class="space-y-4 min-w-0">
+	<h2 class="text-xs uppercase tracking-wider text-muted font-semibold">
+		{t.sections.inputs}
+	</h2>
+	<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+		<TextInput
+			id="demo-input-normal"
+			name="demo-normal"
+			label={t.inputs.normalLabel}
+			placeholder={t.inputs.normalPlaceholder}
+		/>
+		<TextInput
+			id="demo-input-help"
+			name="demo-help"
+			type="email"
+			label={t.inputs.withHelpLabel}
+			placeholder={t.inputs.withHelpPlaceholder}
+			helpText={t.inputs.withHelpText}
+		/>
+		<TextInput
+			id="demo-input-error"
+			name="demo-error"
+			type="password"
+			label={t.inputs.withErrorLabel}
+			value={t.inputs.withErrorValue}
+			errorMessage={t.inputs.withErrorMessage}
+			required
+		/>
+	</div>
+</Card>
+
+<!-- Estados de Feedback (FeedbackState) -->
+<Card variant="surface" class="space-y-4 min-w-0">
+	<h2 class="text-xs uppercase tracking-wider text-muted font-semibold">
+		{t.sections.feedbackDemo}
+	</h2>
+	<div class="space-y-4">
+		<FeedbackState
+			variant="loading"
+			title={t.feedback.loading.title}
+			description={t.feedback.loading.description}
+		/>
+		<FeedbackState
+			variant="empty"
+			title={t.feedback.empty.title}
+			description={t.feedback.empty.description}
+		/>
+		<FeedbackState
+			variant="error"
+			title={t.feedback.error.title}
+			description={t.feedback.error.description}
+		/>
+	</div>
+</Card>
