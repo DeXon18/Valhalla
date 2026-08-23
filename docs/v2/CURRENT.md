@@ -4,159 +4,184 @@ Estado: `AWAITING_OWNER_REVIEW`
 
 ## Tarea autorizada
 
-FASE 5.1 — Identidad.
+FASE 5.2 — Sistema visual.
 
 ## Resultado observable
 
-La identidad conceptual de Valhalla queda definida en `DESIGN.md` mediante principios suficientemente concretos para orientar las decisiones visuales y de producto posteriores sin convertir la temática nórdica en decoración excesiva ni sacrificar usabilidad.
+La identidad aceptada de Valhalla queda traducida a un sistema visual coherente y suficientemente concreto para orientar los componentes de FASE 5.3 sin rediseñar la foundation técnica ya aceptada.
 
 ## Baseline preservada
 
-Se conserva como punto de partida:
+Se conserva:
 
-- fitness moderno con identidad vikinga sutil;
-- personalidad fuerte, sobria, limpia y moderna;
-- épica con moderación;
-- accesibilidad para principiantes;
-- `Linear Calm` como baseline visual actualmente aceptada;
-- identidad nórdica basada en señales discretas;
-- prohibición de estética RPG, rune clutter y ornamentación pesada;
-- lenguaje de marca ya existente:
-  - Conquistas;
-  - Tu Saga;
-  - La Carga de tu Saga;
-  - Peso conquistado.
+- FASE 5.1 — Identidad: `ACCEPTED_LOCKED`;
+- `Linear Calm` como sistema cromático;
+- valores actuales de `src/styles/themes.css`;
+- uso exclusivo de tokens cromáticos semánticos en la UI;
+- jerarquía de superficies:
+  - background;
+  - surface;
+  - raised;
+- acento primario azul-violeta desaturado;
+- success, warning y danger como colores semánticos y no de marca;
+- spacing base de `0.25rem`;
+- Responsive Foundation aceptada;
+- ausencia de glow, neón y grandes superficies saturadas.
 
-Esta fase no reabre esas decisiones salvo contradicción demostrable.
+No se reabre ninguna de estas decisiones salvo contradicción demostrable.
 
 ## Scope incluido
 
-Actualizar únicamente `DESIGN.md` para hacer operativa la identidad de Valhalla.
+Consolidar principalmente `DESIGN.md` para definir:
 
-Debe quedar definido:
+### Paleta
 
-### Núcleo de identidad
+Documentar la función de los roles cromáticos existentes sin modificar sus valores.
 
-- qué significa "fitness moderno";
-- qué significa "identidad vikinga sutil";
-- cómo conviven fuerza y claridad;
-- cómo se mantiene una experiencia accesible para principiantes sin infantilizarla;
-- qué elementos deben hacer reconocible a Valhalla incluso sin decoración nórdica explícita.
+Debe quedar claro:
 
-### Principios de expresión
+- `background` es el plano base;
+- `surface` agrupa contenido;
+- `raised` proporciona un nivel adicional de separación cuando sea necesario;
+- `border` y `border-subtle` separan estructura sin dominar visualmente;
+- `foreground` contiene información principal;
+- `muted` contiene información secundaria;
+- `primary` identifica acción, selección, foco o énfasis relevante;
+- `primary-subtle` permite énfasis contenido;
+- success, warning y danger solo comunican estado semántico.
 
-Definir principios equivalentes a:
+No usar `primary` como decoración general.
 
-- funcionalidad antes que temática;
-- fuerza sin agresividad visual innecesaria;
-- épica mediante jerarquía, lenguaje y composición, no mediante ornamentación constante;
-- identidad nórdica como acento, no como estructura obligatoria de cada componente;
-- modernidad antes que recreación histórica;
-- claridad antes que metáforas de marca.
+Los valores concretos continúan teniendo como fuente de verdad `src/styles/themes.css`.
 
-### Identidad nórdica
+### Tipografía
 
-Precisar:
+Ratificar como baseline:
 
-- cuándo tiene sentido usar geometría, escudos o emblemas;
-- cuándo no deben utilizarse;
-- que los símbolos históricos requieren validar significado y contexto antes de incorporarlos;
-- que no se deben utilizar símbolos históricos como simple decoración desconocida;
-- que Valhalla debe seguir siendo reconocible aunque una pantalla no contenga ningún símbolo nórdico.
+- pila tipográfica de sistema actualmente definida para `font-heading` y `font-body`;
+- no añadir fuentes externas;
+- títulos robustos mediante jerarquía, peso y espaciado;
+- cuerpo e interfaz prioritariamente legibles;
+- diferenciación entre heading y body mediante tratamiento tipográfico, no necesariamente mediante familias diferentes;
+- uppercase y tracking amplio solo cuando exista una función clara de jerarquía o etiquetado;
+- evitar tipografías rúnicas, medievales o decorativas en la interfaz funcional.
 
-### Lenguaje de marca
+No convertir las escalas concretas de la muestra técnica en reglas universales del producto.
 
-Mantener las expresiones existentes y definir su uso con moderación.
+### Geometría
 
-El lenguaje temático debe reservarse principalmente para:
+Definir como dirección visual:
 
-- progreso;
-- logros;
-- recapitulaciones;
-- hitos;
-- narrativa personal.
+- geometría simple y contemporánea;
+- radios pequeños y contenidos como baseline;
+- bordes discretos de baja presencia visual;
+- superficies predominantemente planas;
+- evitar formas excesivamente redondeadas;
+- evitar geometría agresiva o ornamental;
+- no utilizar escudos, cortes angulares o formas nórdicas como estructura obligatoria de controles;
+- la geometría temática solo puede aparecer como acento cuando tenga sentido contextual.
 
-No sustituir términos funcionales claros por metáforas cuando puedan dificultar la comprensión.
+No crear todavía un sistema complejo de tokens de radius si los componentes actuales no lo necesitan.
 
-Por ejemplo, acciones estándar como:
+### Elevación y profundidad
 
-- Guardar;
-- Cancelar;
-- Editar;
-- Eliminar;
-- Iniciar sesión;
+La profundidad debe depender principalmente de:
 
-deben seguir siendo explícitas salvo que exista una razón de UX concreta para otra denominación.
+- luminosidad de las superficies;
+- bordes;
+- composición y separación espacial.
 
-### Límites
+Las sombras no forman parte de la baseline por defecto.
 
-Debe quedar explícito que Valhalla no es:
+Solo deben incorporarse posteriormente cuando comuniquen elevación o interacción de forma funcional.
 
-- una interfaz RPG;
-- una recreación histórica;
-- una estética gamer/neón;
-- una colección de runas;
-- una interfaz agresiva o intimidante;
-- una excusa para sacrificar accesibilidad;
-- una marca basada únicamente en escudos, metal, piedra o iconografía nórdica.
+### Lenguaje visual
 
-## Fuente de verdad
+Valhalla debe sentirse:
 
-`DESIGN.md` sigue siendo la fuente de verdad de identidad visual y UX.
+- oscuro pero legible;
+- fuerte pero no agresivo;
+- preciso;
+- contenido;
+- contemporáneo;
+- denso solo cuando la información lo requiera;
+- reconocible por jerarquía y coherencia, no por ornamentación.
 
-No crear un segundo documento de identidad que duplique sus decisiones.
+Reglas:
+
+- un solo acento de marca dominante;
+- jerarquía antes que decoración;
+- contraste antes que efectos;
+- superficies antes que sombras;
+- espacio antes que separadores innecesarios;
+- temática nórdica como acento;
+- evitar gradientes decorativos, glow y ruido visual;
+- no transformar cada elemento de interfaz en una pieza de branding.
+
+### Relación con la implementación actual
+
+Auditar:
+
+- `src/styles/themes.css`;
+- `src/styles/global.css`;
+- componentes foundation existentes.
+
+Si ya cumplen las decisiones anteriores, no modificarlos.
+
+No hacer cambios de código únicamente para “formalizar” algo que ya funciona.
 
 ## Scope excluido
 
-No modificar en esta fase:
-
-- código;
-- componentes;
-- App Shell;
-- paleta;
-- valores de `Linear Calm`;
-- tokens;
-- tipografía;
-- geometría visual concreta;
-- iconografía concreta;
+- nuevos colores;
+- cambios de valores de `Linear Calm`;
+- temas adicionales;
+- fuente externa;
 - logo;
 - logotipo;
 - emblema definitivo;
+- iconografía concreta;
 - ilustraciones;
+- componentes nuevos;
+- rediseño de App Shell;
+- cambios responsive;
 - motion;
 - microinteracciones;
-- accesibilidad técnica;
-- landing;
-- copy comercial;
-- manifiesto público;
-- páginas About/Sobre Valhalla.
+- validación WCAG exhaustiva;
+- componentes de producto;
+- rutas funcionales.
 
-Esos elementos pertenecen a fases posteriores.
+FASE 5.3 definirá componentes.
+
+FASE 5.4 definirá motion.
+
+FASE 5.5 realizará la consolidación de accesibilidad.
 
 ## Criterio de aceptación
 
-- `DESIGN.md` conserva la baseline aceptada;
-- la identidad "fitness moderno + vikinga sutil" queda explicada de forma operativa;
-- queda claro qué es y qué no es Valhalla;
-- queda definido cuándo usar lenguaje temático y cuándo priorizar lenguaje funcional;
-- la identidad nórdica queda subordinada a usabilidad y claridad;
-- no se introducen decisiones propias de FASE 5.2 o posteriores;
-- no se modifica código;
+- `Linear Calm` permanece sin cambios;
+- los roles cromáticos quedan documentados;
+- la estrategia tipográfica queda explícita;
+- la geometría queda definida sin tematización excesiva;
+- queda definida la estrategia de profundidad/elevación;
+- el lenguaje visual queda suficientemente concreto para orientar FASE 5.3;
+- no se confunden decisiones de la muestra técnica con reglas universales;
+- no se introducen dependencias;
+- no se realizan cambios de código innecesarios;
 - `git diff --check` está limpio.
 
 ## Estado previo
 
 - FASE 4 — Fundación técnica: `ACCEPTED_LOCKED`.
-- FASE 4.6 — App Shell: `ACCEPTED_LOCKED`.
+- FASE 5.1 — Identidad: `ACCEPTED_LOCKED`.
 
 ## Responsable principal
 
-Oskar decide la identidad y acepta el resultado.
+Oskar acepta las decisiones visuales.
 
-Gemini consolida la documentación autorizada.
+Gemini consolida la documentación e implementación estrictamente necesaria.
 
-ChatGPT apoya detectando contradicciones, exceso temático y límites de scope.
+ChatGPT apoya en coherencia del sistema, límites de scope y revisión técnica.
 
 ## Después de aceptar
 
-Siguiente candidato: FASE 5.2 — Sistema visual.
+Siguiente candidato: FASE 5.3 — Componentes.
