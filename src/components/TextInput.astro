@@ -1,0 +1,87 @@
+---
+type InputType =
+	| 'text'
+	| 'email'
+	| 'password'
+	| 'search'
+	| 'tel'
+	| 'url';
+
+interface Props {
+	id: string;
+	name: string;
+	label: string;
+	type?: InputType;
+	placeholder?: string;
+	value?: string;
+	required?: boolean;
+	disabled?: boolean;
+	helpText?: string;
+	errorMessage?: string;
+	class?: string;
+}
+
+const {
+	id,
+	name,
+	label,
+	type = 'text',
+	placeholder,
+	value,
+	required = false,
+	disabled = false,
+	helpText,
+	errorMessage,
+	class: className = '',
+} = Astro.props;
+
+const hasError = Boolean(errorMessage);
+const hasHelp = Boolean(helpText);
+
+const helpId = hasHelp ? `${id}-help` : undefined;
+const errorId = hasError ? `${id}-error` : undefined;
+
+const describedBy = [errorId, helpId].filter(Boolean).join(' ') || undefined;
+---
+
+<div class={`space-y-1.5 min-w-0 ${className}`.trim()}>
+	<label for={id} class="block text-xs font-semibold text-foreground tracking-wide">
+		{label}
+		{required && <span class="text-danger ml-0.5" aria-hidden="true">*</span>}
+	</label>
+
+	<input
+		id={id}
+		name={name}
+		type={type}
+		value={value}
+		placeholder={placeholder}
+		required={required}
+		disabled={disabled}
+		aria-invalid={hasError ? 'true' : undefined}
+		aria-describedby={describedBy}
+		class={
+			"w-full px-3 py-2 rounded text-sm bg-background border transition-none placeholder:text-muted/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 " +
+			(hasError
+				? "border-danger text-foreground focus-visible:outline-danger"
+				: "border-border text-foreground focus-visible:outline-primary") +
+			(disabled ? " opacity-40 cursor-not-allowed" : "")
+		}
+	/>
+
+	{
+		hasError && (
+			<p id={errorId} class="text-xs text-danger font-medium leading-relaxed">
+				{errorMessage}
+			</p>
+		)
+	}
+
+	{
+		hasHelp && (
+			<p id={helpId} class="text-xs text-muted leading-relaxed">
+				{helpText}
+			</p>
+		)
+	}
+</div>

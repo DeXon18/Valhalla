@@ -1,0 +1,64 @@
+---
+type Variant = 'primary' | 'secondary';
+
+type Props =
+	| {
+			variant?: Variant;
+			href: string;
+			class?: string;
+			type?: never;
+			disabled?: never;
+	  }
+	| {
+			variant?: Variant;
+			href?: never;
+			class?: string;
+			type?: 'button' | 'submit' | 'reset';
+			disabled?: boolean;
+	  };
+
+const {
+	variant = 'primary',
+	href,
+	class: className = '',
+	type = 'button',
+	disabled = false,
+} = Astro.props;
+
+const baseStyles =
+	'inline-flex items-center justify-center font-semibold px-4 py-2 rounded text-sm text-center transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary';
+
+let variantStyles = '';
+if (href) {
+	variantStyles =
+		variant === 'primary'
+			? 'bg-primary text-primary-foreground hover:bg-primary-hover cursor-pointer'
+			: 'bg-raised text-foreground border border-border hover:border-foreground/30 cursor-pointer';
+} else if (disabled) {
+	variantStyles =
+		variant === 'primary'
+			? 'bg-primary text-primary-foreground opacity-40 cursor-not-allowed'
+			: 'bg-raised text-foreground border border-border opacity-40 cursor-not-allowed';
+} else {
+	variantStyles =
+		variant === 'primary'
+			? 'bg-primary text-primary-foreground hover:bg-primary-hover cursor-pointer'
+			: 'bg-raised text-foreground border border-border hover:border-foreground/30 cursor-pointer';
+}
+---
+
+{
+	href ? (
+		<a href={href} class={`${baseStyles} ${variantStyles} ${className}`.trim()}>
+			<slot />
+		</a>
+	) : (
+		<button
+			type={type}
+			disabled={disabled}
+			class={`${baseStyles} ${variantStyles} ${className}`.trim()}
+		>
+			<slot />
+		</button>
+	)
+}

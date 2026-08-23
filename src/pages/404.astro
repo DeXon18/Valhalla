@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AppShell from '../components/AppShell.astro';
+import Card from '../components/Card.astro';
+import Button from '../components/Button.astro';
 import { locales, defaultLocale, getTranslations, type Locale } from '../i18n/config';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 
@@ -15,7 +17,7 @@ const homeUrl = getRelativeLocaleUrl(locale, '');
 
 <BaseLayout locale={locale} title={messages.notFound.title}>
 	<AppShell locale={locale} messages={messages} homeIsCurrent={false}>
-		<div class="p-6 rounded border border-border bg-surface text-foreground space-y-4 max-w-lg mx-auto text-center sm:text-left">
+		<Card variant="surface" class="space-y-4 max-w-lg mx-auto text-center sm:text-left">
 			<div class="space-y-2">
 				<h1 class="font-heading font-bold text-2xl tracking-wide text-foreground">
 					{messages.notFound.heading}
@@ -26,13 +28,10 @@ const homeUrl = getRelativeLocaleUrl(locale, '');
 			</div>
 
 			<div class="pt-2">
-				<a
-					href={homeUrl}
-					class="inline-block bg-primary text-primary-foreground font-semibold px-4 py-2 rounded text-sm hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-none"
-				>
+				<Button variant="primary" href={homeUrl}>
 					{messages.notFound.backHome}
-				</a>
+				</Button>
 			</div>
-		</div>
+		</Card>
 	</AppShell>
 </BaseLayout>

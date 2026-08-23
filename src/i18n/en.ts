@@ -8,7 +8,7 @@ export const en: Translations = {
   page: {
     title: 'Valhalla — UI Base (Technical Sample)',
     heading: 'UI Base Technical Sample',
-    description: 'Technical verification of semantic tokens: surfaces, borders, typography, spacing, and visual states (PHASE 4.2 / 4.3).',
+    description: 'Technical verification of semantic tokens and foundation components: Button, Card, TextInput, FeedbackState, and visual states (PHASE 5.3).',
   },
   notFound: {
     title: 'Valhalla — Page not found',
@@ -35,13 +35,32 @@ export const en: Translations = {
   },
   sections: {
     surfaces: 'Surfaces & Borders',
+    cards: 'Cards & Containers',
+    inputs: 'Text Fields (TextInput)',
     spacing: 'Spacing Scale',
     controls: 'Controls, States & Badges',
+    feedbackDemo: 'Feedback States (FeedbackState)',
   },
   surfaces: {
     background: 'Background',
     surface: 'Surface',
     raised: 'Raised Surface',
+  },
+  cards: {
+    surfaceTitle: 'Surface Card',
+    surfaceDesc: 'Basic visual container for grouping main content.',
+    raisedTitle: 'Raised Card',
+    raisedDesc: 'Additional visual separation level for featured blocks.',
+  },
+  inputs: {
+    normalLabel: 'Username',
+    normalPlaceholder: 'Enter your name',
+    withHelpLabel: 'Email address',
+    withHelpPlaceholder: 'user@example.com',
+    withHelpText: 'We will use this email for account communications.',
+    withErrorLabel: 'Password',
+    withErrorValue: '1234',
+    withErrorMessage: 'Password must be at least 8 characters.',
   },
   actions: {
     primary: 'Primary',
