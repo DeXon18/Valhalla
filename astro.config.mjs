@@ -10,6 +10,17 @@ export default defineConfig({
   adapter: node({
     mode: 'standalone',
   }),
+  i18n: {
+    defaultLocale: 'es',
+    locales: ['es', 'en'],
+    fallback: {
+      en: 'es',
+    },
+    routing: {
+      prefixDefaultLocale: false,
+      fallbackType: 'redirect',
+    },
+  },
   vite: {
     plugins: [tailwindcss()],
   },

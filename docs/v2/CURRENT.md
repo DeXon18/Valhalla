@@ -4,77 +4,83 @@ Estado: `AWAITING_OWNER_REVIEW`
 
 ## Tarea autorizada
 
-FASE 4.3 — Responsive Foundation.
+FASE 4.4 — Internacionalización.
 
 ## Resultado observable
 
-La UI base de Valhalla se adapta correctamente desde móvil hasta escritorio sin overflow horizontal, pérdida de legibilidad ni controles inutilizables.
-
-La implementación sigue un enfoque mobile-first y conserva desktop como experiencia first-class.
+La misma UI base de Valhalla está disponible en español e inglés utilizando la internacionalización nativa de Astro, con rutas, traducciones y fallback explícitos.
 
 ## Scope incluido
 
-- adaptar la muestra técnica existente para móvil, tablet y desktop;
-- mantener mobile-first;
-- validar específicamente móvil en:
-  - 360 px;
-  - 390 px;
-  - 430 px;
-- validar una transición fluida en tablet;
-- validar desktop en:
-  - 1280 px;
-  - 1440 px;
-- ajustar únicamente cuando resulte necesario:
-  - ancho de contenido;
-  - padding;
-  - gaps;
-  - columnas;
-  - wrapping;
-  - tamaño/disposición de controles;
-- mantener legibilidad y jerarquía visual en todos los tamaños;
-- evitar overflow horizontal;
-- conservar la baseline visual y los tokens aceptados en FASE 4.2.
+- utilizar las capacidades i18n nativas de Astro;
+- registrar centralmente los locales soportados;
+- español como locale por defecto;
+- inglés como segundo locale;
+- español accesible sin prefijo:
+  - `/`
+- inglés accesible con prefijo:
+  - `/en/`
+- fallback explícito de inglés a español para rutas sin traducción;
+- crear traducciones ES/EN para todo el texto visible de la muestra técnica;
+- evitar strings funcionales importantes hardcodeadas en las páginas;
+- utilizar claves semánticas estables;
+- mantener una única implementación visual compartida entre idiomas;
+- establecer correctamente el atributo `lang` del documento;
+- añadir un selector ES/EN sin JavaScript;
+- mantener la ruta equivalente cuando exista;
+- preservar UI, Linear Calm y responsive aceptados.
+
+## Estructura objetivo mínima
+
+- `src/i18n/config.ts`
+- `src/i18n/es.ts`
+- `src/i18n/en.ts`
+- componente compartido para la muestra UI;
+- rutas Astro mínimas para `/` y `/en/`.
 
 ## Scope excluido
 
+- paquetes i18n de terceros;
+- detección automática del navegador;
+- persistencia de la preferencia de idioma;
+- localStorage o cookies;
+- selector de idioma de perfil;
+- más idiomas;
+- traducciones de funcionalidades que todavía no existen;
 - App Shell;
-- sidebar o navegación real;
-- componentes de producto;
-- landing pública;
-- i18n;
 - persistencia;
 - autenticación;
-- nuevos tokens cromáticos;
-- rediseñar Linear Calm;
-- selector de temas;
-- motion;
-- breakpoints personalizados sin necesidad demostrada;
+- cambios visuales;
+- cambios responsive;
 - Production.
 
 ## Criterio de aceptación
 
-- la página funciona correctamente a 360, 390 y 430 px;
-- la adaptación intermedia de tablet no presenta roturas ni overflow;
-- la página aprovecha correctamente 1280 y 1440 px sin quedar artificialmente estirada;
-- los controles siguen siendo utilizables y legibles;
-- no existe scroll horizontal provocado por la UI;
-- las superficies y contenidos cambian de disposición solo cuando aporta valor;
+- `/` renderiza la muestra en español;
+- `/en/` renderiza la misma muestra en inglés;
+- ambas rutas utilizan la misma implementación visual compartida;
+- `<html lang>` coincide con el idioma activo;
+- existe un registro central de locales;
+- existe fallback explícito a español;
+- el selector permite cambiar entre ES y EN;
+- no se duplica el markup completo para cada idioma;
 - `npm run build` finaliza correctamente;
-- no se ha adelantado trabajo de FASE 4.4 o posteriores.
+- la UI aceptada en FASE 4.2 y 4.3 no cambia materialmente.
 
 ## Estado previo
 
 - FASE 4.1 — Bootstrap Astro: `ACCEPTED_LOCKED`.
 - FASE 4.2 — UI base: `ACCEPTED_LOCKED`.
+- FASE 4.3 — Responsive Foundation: `ACCEPTED_LOCKED`.
 
 ## Responsable principal
 
 Gemini implementa CURRENT.
 
-Oskar revisa visualmente móvil, tablet y desktop.
+ChatGPT apoya en arquitectura i18n o bloqueos técnicos reales.
 
-ChatGPT apoya en decisiones responsive o bloqueos técnicos reales.
+Oskar revisa que ES y EN sean funcionalmente equivalentes.
 
 ## Después de aceptar
 
-Siguiente candidato: FASE 4.4 — Internacionalización.
+Siguiente candidato: FASE 4.5 — Persistencia.
