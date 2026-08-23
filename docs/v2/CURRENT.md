@@ -1,22 +1,23 @@
 # CURRENT
 
-Estado: `ACCEPTED_LOCKED`
+Estado: `IN_PROGRESS`
 
 ## Tarea autorizada
 
-PUENTE INFRA — Cloudflare Tunnel para Development.
+FASE 6.1 — Landing pública de Valhalla.
 
 ## Resultado observable
 
-Valhalla Development queda accesible externamente mediante:
+La ruta pública principal deja de ser una muestra técnica de componentes y pasa a presentar Valhalla como producto mediante una landing clara, sobria y reconocible.
 
-`https://dev-valha.dxpro.es`
+La landing debe comunicar:
 
-El tráfico público entra por Cloudflare Tunnel y llega al servicio local existente:
-
-`http://127.0.0.1:4321`
-
-El origen no se expone directamente a Internet ni cambia su bind local.
+- qué es Valhalla;
+- para quién y para qué se está construyendo;
+- su foco en entrenamiento de fuerza y progresión;
+- su naturaleza self-hosted;
+- que los datos permanecen bajo control del usuario;
+- la dirección funcional del producto sin presentar funcionalidades futuras como ya disponibles.
 
 ## Baseline preservada
 
@@ -24,122 +25,277 @@ Se conserva:
 
 - FASE 5 completa: `ACCEPTED_LOCKED`;
 - servicio persistente de Development: `ACCEPTED_LOCKED`;
-- `valhalla-dev.service`;
-- Development en `127.0.0.1:4321`;
-- PostgreSQL y secretos actuales;
-- rama de integración `develop`;
-- Production aplazada.
+- Cloudflare Tunnel Development: `ACCEPTED_LOCKED`;
+- `DESIGN.md`;
+- sistema visual `Linear Calm`;
+- componentes foundation existentes;
+- accesibilidad foundation;
+- reduced-motion;
+- i18n ES / EN;
+- SSR Astro;
+- responsive foundation;
+- PostgreSQL y arquitectura actual.
 
-No modificar código de producto, diseño, base de datos ni dependencias npm.
+No rediseñar la foundation ni sustituir el sistema visual aprobado.
 
-## Cloudflared
+## Dirección de producto
 
-Instalar `cloudflared` desde el repositorio estable oficial de Cloudflare para Debian.
+Valhalla es un:
 
-No utilizar builds nightly.
+`Strength & Progression Tracker`
 
-El conector debe:
+Producto self-hosted orientado al registro y seguimiento del entrenamiento de fuerza y su evolución.
 
-- ejecutarse como servicio persistente;
-- arrancar automáticamente;
-- recuperarse ante fallo;
-- conectar exclusivamente con el Tunnel de Development proporcionado por el owner;
-- dirigir el hostname público a `http://127.0.0.1:4321`.
+La landing puede explicar la dirección futura del producto, pero debe distinguir claramente entre:
 
-## Tunnel token
+- lo que Valhalla es;
+- lo que se está construyendo;
+- lo que todavía no está disponible.
 
-El Tunnel token es secreto.
+No presentar funcionalidades futuras como funcionalidades actualmente operativas.
 
-Nunca:
+## Arquitectura aprobada
 
-- incluirlo en Git;
-- incluirlo en `CURRENT.md`;
-- incluirlo en documentación;
-- pegarlo en chat;
-- imprimirlo con `echo`, `cat` o logs;
-- escribirlo literalmente en un comando que quede en el historial del shell.
+La landing tendrá una estructura contenida.
 
-La introducción del token deberá hacerse mediante entrada oculta en terminal.
-
-Después de instalar el servicio se debe verificar que:
-
-- el token se almacena fuera del repositorio;
-- sus permisos son restrictivos;
-- el unit de systemd no contiene el valor del token;
-- `ExecStart` utiliza un token file o mecanismo equivalente seguro.
-
-Si la versión instalada intenta persistir el token literalmente en el unit de systemd, detener la tarea y no continuar.
-
-## Red y exposición
+### 1. Header
 
 Mantener:
 
-`valhalla-dev.service -> 127.0.0.1:4321`
+- marca Valhalla;
+- navegación mínima;
+- selector ES / EN.
 
-No cambiar a `0.0.0.0`.
+No añadir navegación hacia páginas que todavía no existen.
 
-No abrir puertos HTTP/HTTPS entrantes en el LXC para resolver el túnel.
+### 2. Hero
 
-El conector Cloudflare establece la conexión saliente necesaria.
+Eyebrow:
 
-## Hostname
+`Strength & Progression Tracker`
 
-Hostname objetivo:
+Mensaje principal ES:
 
-`dev-valha.dxpro.es`
+`Forja tu fuerza. Haz visible tu progreso.`
 
-El hostname deberá estar asociado únicamente al Tunnel de Development.
+Descripción base ES:
 
-No configurar todavía:
+`Valhalla es un tracker de entrenamiento de fuerza self-hosted, diseñado para convertir cada sesión en una historia clara de progreso.`
 
-- `valha.dxpro.es`;
+El hero debe:
+
+- explicar el producto rápidamente;
+- contener una única acción principal;
+- poder incorporar una pieza visual original si aporta identidad;
+- mantener la jerarquía antes que la decoración.
+
+### 3. Qué es Valhalla
+
+Mensaje conceptual:
+
+`Tu entrenamiento. Tu progreso. Tus datos.`
+
+Explicar de forma breve:
+
+- entrenamiento de fuerza;
+- progreso como eje del producto;
+- self-hosted;
+- datos bajo control del usuario.
+
+No usar claims absolutos o no demostrables.
+
+### 4. Qué estamos construyendo
+
+Presentar como dirección del producto, no como funciones disponibles:
+
+- rutinas y ejercicios;
+- registro de sesiones e historial;
+- progresión y métricas.
+
+La redacción debe dejar inequívocamente claro que estas capacidades forman parte de lo que Valhalla está construyendo.
+
+### 5. Cierre
+
+Cerrar la landing con un mensaje breve de identidad y continuidad.
+
+No implementar autenticación.
+
+No crear un falso CTA de login.
+
+El acceso real llegará en FASE 7.
+
+## CTA
+
+Durante FASE 6.1 la acción principal será interna a la landing.
+
+Debe llevar a una sección informativa real de la misma página.
+
+Ejemplos de intención válidos:
+
+- `Descubrir Valhalla`;
+- `Conocer Valhalla`.
+
+No crear enlaces muertos.
+
+No crear `/login`.
+
+No adelantar Better Auth.
+
+## Claims prohibidos
+
+No utilizar por ahora expresiones absolutas como:
+
+- `el diario de entrenamiento definitivo`;
+- `sin límites`;
+- `la mejor aplicación`;
+- claims equivalentes que requieran evidencia inexistente.
+
+La comunicación debe ser ambiciosa pero verificable.
+
+## Recursos visuales
+
+Gemini está autorizado a generar recursos visuales originales cuando aporten valor real a la landing.
+
+Para FASE 6.1:
+
+- preferir una sola pieza visual fuerte para el Hero;
+- no añadir imágenes simplemente porque sea posible generarlas;
+- el diseño debe seguir `DESIGN.md`;
+- mantener `Linear Calm`;
+- fitness moderno;
+- fuerza sobria;
+- identidad nórdica sutil.
+
+Evitar:
+
+- estética gamer;
+- RPG;
+- cyberpunk;
+- neón;
+- fuego;
+- rayos;
+- texturas pesadas;
+- culturismo stock genérico;
+- cascos vikingos usados como cliché;
+- runas decorativas;
+- símbolos históricos no investigados y validados.
+
+Prohibido generar falsas capturas, dashboards, gráficas, datos, rutinas o pantallas de funcionalidades inexistentes.
+
+La imagen no debe contener el copy principal de la landing. El contenido textual debe permanecer como HTML real.
+
+Si se genera un asset:
+
+- almacenarlo localmente en el proyecto;
+- no depender de hotlinks externos;
+- optimizarlo razonablemente para web;
+- definir tratamiento accesible adecuado;
+- utilizar `alt` si comunica información;
+- tratarlo como decorativo si no aporta información necesaria.
+
+Si ninguna imagen mejora realmente el resultado, la landing puede resolverse sin ella.
+
+La generación de imágenes no amplía el scope.
+
+## UI Foundation Demo
+
+La home pública ya no debe renderizar `UiFoundationDemo`.
+
+No eliminar todavía el componente ni otros elementos de foundation únicamente porque dejen de aparecer en `/`.
+
+Su eliminación, si alguna vez procede, requiere justificación separada.
+
+## Componentización
+
+Crear únicamente los componentes necesarios para mantener la landing clara y mantenible.
+
+No convertir cada bloque visual en una abstracción independiente sin necesidad.
+
+Se permite un componente de landing compartido entre locales si reduce duplicación de forma natural.
+
+## Idiomas
+
+La arquitectura existente ES / EN debe seguir funcionando.
+
+La estructura de la landing debe utilizar las traducciones centralizadas existentes y evitar strings funcionales importantes duplicadas entre páginas.
+
+`/` y `/en/` no deben quedar rotos.
+
+FASE 6.2 sigue reservada para la revisión específica de idiomas, equivalencia de contenido y calidad de localización.
+
+Implementar el mínimo necesario en inglés para mantener la landing funcional no implica cerrar FASE 6.2.
+
+## Responsive
+
+Preservar la foundation responsive existente.
+
+La landing no puede introducir overflow ni regresiones evidentes en móvil.
+
+FASE 6.3 seguirá siendo la tarea específica de revisión y refinamiento responsive.
+
+No intentar cerrar ahora todo el trabajo responsive futuro.
+
+## Accesibilidad
+
+Preservar los criterios ya aceptados:
+
+- jerarquía semántica correcta;
+- un único `h1`;
+- navegación por teclado;
+- foco visible;
+- targets táctiles adecuados;
+- contraste WCAG de la foundation;
+- reduced-motion;
+- imágenes con tratamiento accesible;
+- significado no dependiente únicamente del color.
+
+## Fuera de alcance
+
+No realizar en FASE 6.1:
+
+- autenticación;
+- Better Auth;
+- `/login`;
+- registro de usuarios;
+- dashboard;
+- perfil;
+- catálogo real de ejercicios;
+- rutinas funcionales;
+- sesiones de entrenamiento;
+- historial real;
+- métricas reales;
+- gráficas reales;
+- mockups falsos de esas funciones;
+- nuevas páginas legales;
+- manifiesto;
+- About;
 - Production;
-- otros subdominios.
+- cambios Cloudflare;
+- cambios PostgreSQL;
+- nuevas dependencias salvo bloqueo técnico demostrado y autorizado.
 
 ## Validación
 
 Comprobar como mínimo:
 
-- `cloudflared` instalado desde fuente oficial;
-- versión instalada identificada;
-- servicio habilitado y activo;
-- Tunnel conectado;
-- recuperación del servicio tras reinicio;
-- `valhalla-dev.service` continúa activo;
-- Valhalla continúa escuchando solo en `127.0.0.1:4321`;
-- `https://dev-valha.dxpro.es/` devuelve HTTP 200;
-- `/en/` devuelve HTTP 200;
-- `/api/health` devuelve HTTP 200 con aplicación y base de datos saludables;
-- ruta inexistente devuelve HTTP 404;
-- certificado HTTPS válido;
-- no hay secretos visibles en Git, unit files ni logs revisados;
-- working tree limpio salvo documentación o infraestructura autorizada.
-
-## Reproducibilidad
-
-Versionar únicamente configuración o documentación de infraestructura que no contenga secretos.
-
-No versionar el Tunnel token ni archivos que lo contengan.
-
-## Fuera de alcance
-
-No realizar en esta tarea:
-
-- Production;
-- `valha.dxpro.es`;
-- Cloudflare Access;
-- WAF personalizado;
-- reglas de caché;
-- Workers;
-- reverse proxy adicional;
-- Docker;
-- CI/CD;
-- cambios de aplicación;
-- cambios de PostgreSQL;
-- nuevas dependencias npm.
-
-Estas capacidades requieren tareas separadas si llegan a ser necesarias.
+- `/` presenta la landing y no la muestra técnica;
+- `/en/` continúa funcional;
+- la estructura semántica es correcta;
+- no existen enlaces muertos introducidos por la landing;
+- no se afirma como disponible ninguna función futura;
+- no se introduce `/login`;
+- no hay overflow evidente a 360 CSS px;
+- desktop mantiene una composición coherente;
+- navegación por teclado y foco siguen funcionando;
+- reduced-motion se preserva;
+- cualquier imagen local está correctamente integrada;
+- `npm run check`;
+- `npm run build`;
+- `npm audit --omit=dev`;
+- `/api/health` continúa saludable;
+- `git diff --check`;
+- no hay cambios inesperados de dependencias.
 
 ## Criterio de cierre
 
-La tarea pasa a `AWAITING_OWNER_REVIEW` únicamente cuando Development sea accesible de forma estable mediante `https://dev-valha.dxpro.es`, el origen siga siendo privado y las comprobaciones locales, externas y de secretos hayan pasado.
+FASE 6.1 pasa a `AWAITING_OWNER_REVIEW` únicamente cuando la home deje de ser una demo técnica y comunique Valhalla como producto de forma clara, honesta, coherente con `DESIGN.md` y sin adelantar funcionalidades de fases posteriores.
