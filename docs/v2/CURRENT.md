@@ -1,65 +1,80 @@
 # CURRENT
 
-Estado: `AWAITING_OWNER_REVIEW`
+Estado: `IN_PROGRESS`
 
 ## Tarea autorizada
 
-FASE 4.2 — UI base.
+FASE 4.3 — Responsive Foundation.
 
 ## Resultado observable
 
-Valhalla dispone de una base visual mínima y reutilizable sobre Astro mediante Tailwind CSS, con tokens explícitos para color, tipografía, espaciado y estados.
+La UI base de Valhalla se adapta correctamente desde móvil hasta escritorio sin overflow horizontal, pérdida de legibilidad ni controles inutilizables.
+
+La implementación sigue un enfoque mobile-first y conserva desktop como experiencia first-class.
 
 ## Scope incluido
 
-- integrar Tailwind CSS con Astro/Vite;
-- verificar antes de instalar las versiones estables compatibles de:
-  - `tailwindcss`;
-  - `@tailwindcss/vite`;
-- crear la hoja de estilos global mínima necesaria;
-- definir design tokens básicos coherentes con `DESIGN.md`;
-- establecer tipografía base para títulos y cuerpo/UI;
-- establecer una escala de spacing mínima;
-- definir estados visuales básicos reutilizables;
-- aplicar la base visual a la página mínima existente para comprobarla;
-- validar instalación y build.
+- adaptar la muestra técnica existente para móvil, tablet y desktop;
+- mantener mobile-first;
+- validar específicamente móvil en:
+  - 360 px;
+  - 390 px;
+  - 430 px;
+- validar una transición fluida en tablet;
+- validar desktop en:
+  - 1280 px;
+  - 1440 px;
+- ajustar únicamente cuando resulte necesario:
+  - ancho de contenido;
+  - padding;
+  - gaps;
+  - columnas;
+  - wrapping;
+  - tamaño/disposición de controles;
+- mantener legibilidad y jerarquía visual en todos los tamaños;
+- evitar overflow horizontal;
+- conservar la baseline visual y los tokens aceptados en FASE 4.2.
 
 ## Scope excluido
 
-- Responsive Foundation de FASE 4.3;
-- layouts específicos de móvil, tablet o desktop;
 - App Shell;
-- navegación;
+- sidebar o navegación real;
+- componentes de producto;
+- landing pública;
 - i18n;
 - persistencia;
 - autenticación;
-- componentes de producto;
-- identidad visual definitiva o decoración nórdica avanzada;
+- nuevos tokens cromáticos;
+- rediseñar Linear Calm;
+- selector de temas;
 - motion;
-- Production;
-- tooling adicional sin necesidad concreta.
+- breakpoints personalizados sin necesidad demostrada;
+- Production.
 
 ## Criterio de aceptación
 
-- Tailwind está integrado mediante la vía compatible con el stack actual;
-- las dependencias quedan fijadas y reproducibles en `package-lock.json`;
-- existe una fuente única y comprensible para los tokens básicos;
-- la página mínima demuestra color, tipografía, spacing y estados sin convertirse en una pantalla de producto;
+- la página funciona correctamente a 360, 390 y 430 px;
+- la adaptación intermedia de tablet no presenta roturas ni overflow;
+- la página aprovecha correctamente 1280 y 1440 px sin quedar artificialmente estirada;
+- los controles siguen siendo utilizables y legibles;
+- no existe scroll horizontal provocado por la UI;
+- las superficies y contenidos cambian de disposición solo cuando aporta valor;
 - `npm run build` finaliza correctamente;
-- no se ha adelantado trabajo de FASE 4.3 o posteriores.
+- no se ha adelantado trabajo de FASE 4.4 o posteriores.
 
 ## Estado previo
 
-FASE 4.1 — Bootstrap Astro: `ACCEPTED_LOCKED`.
+- FASE 4.1 — Bootstrap Astro: `ACCEPTED_LOCKED`.
+- FASE 4.2 — UI base: `ACCEPTED_LOCKED`.
 
 ## Responsable principal
 
 Gemini implementa CURRENT.
 
-Oskar decide cualquier elección visual que cambie materialmente la identidad definida.
+Oskar revisa visualmente móvil, tablet y desktop.
 
-ChatGPT apoya en compatibilidad técnica, arquitectura o bloqueos reales.
+ChatGPT apoya en decisiones responsive o bloqueos técnicos reales.
 
 ## Después de aceptar
 
-Siguiente candidato: FASE 4.3 — Responsive Foundation.
+Siguiente candidato: FASE 4.4 — Internacionalización.
