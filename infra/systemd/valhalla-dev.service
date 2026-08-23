@@ -1,0 +1,19 @@
+[Unit]
+Description=Valhalla Development
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=gemini
+Group=gemini
+WorkingDirectory=/opt/web-projects/Valhalla/development
+EnvironmentFile=/opt/web-projects/Valhalla/.secrets/postgres-dev.env
+Environment=HOST=127.0.0.1
+Environment=PORT=4321
+ExecStart=/usr/local/bin/node dist/server/entry.mjs
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
