@@ -4,12 +4,24 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build"
+    "build": "astro build",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:check": "drizzle-kit check",
+    "check": "astro check"
   },
   "dependencies": {
     "@astrojs/node": "11.1.4",
     "@tailwindcss/vite": "4.3.3",
     "astro": "7.2.4",
+    "drizzle-orm": "0.45.2",
+    "pg": "8.23.0",
     "tailwindcss": "4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@types/pg": "8.23.1",
+    "drizzle-kit": "0.31.10",
+    "typescript": "6.0.3"
   }
 }
