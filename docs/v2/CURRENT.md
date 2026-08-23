@@ -1,217 +1,162 @@
 # CURRENT
 
-Estado: `AWAITING_OWNER_REVIEW`
+Estado: `IN_PROGRESS`
 
 ## Tarea autorizada
 
-FASE 4.6 — App Shell.
+FASE 5.1 — Identidad.
 
 ## Resultado observable
 
-Valhalla dispone de una estructura de aplicación compartida, responsive, localizada y accesible sobre la que puedan incorporarse posteriormente las pantallas funcionales del producto.
+La identidad conceptual de Valhalla queda definida en `DESIGN.md` mediante principios suficientemente concretos para orientar las decisiones visuales y de producto posteriores sin convertir la temática nórdica en decoración excesiva ni sacrificar usabilidad.
+
+## Baseline preservada
+
+Se conserva como punto de partida:
+
+- fitness moderno con identidad vikinga sutil;
+- personalidad fuerte, sobria, limpia y moderna;
+- épica con moderación;
+- accesibilidad para principiantes;
+- `Linear Calm` como baseline visual actualmente aceptada;
+- identidad nórdica basada en señales discretas;
+- prohibición de estética RPG, rune clutter y ornamentación pesada;
+- lenguaje de marca ya existente:
+  - Conquistas;
+  - Tu Saga;
+  - La Carga de tu Saga;
+  - Peso conquistado.
+
+Esta fase no reabre esas decisiones salvo contradicción demostrable.
 
 ## Scope incluido
 
-- crear un layout compartido para las páginas de aplicación;
-- crear un App Shell reutilizable;
-- incorporar:
-  - cabecera;
-  - identidad Valhalla mínima;
-  - área de navegación;
-  - área principal de contenido;
-- trasladar el selector ES / EN al shell compartido;
-- mantener navegación únicamente hacia rutas que realmente existan;
-- no inventar todavía secciones funcionales del producto;
-- conservar la UI técnica actual como contenido temporal dentro del shell;
-- mantener ES y EN funcionalmente equivalentes;
-- mantener rutas actuales:
-  - `/`
-  - `/en/`;
-- crear estados reutilizables:
-  - loading;
-  - empty;
-  - error;
-- los estados deben ser accesibles y no depender de JavaScript;
-- crear endpoint:
-  - `/api/health`;
-- health debe comprobar:
-  - aplicación operativa;
-  - conectividad real con PostgreSQL;
-- respuesta healthy:
-  - HTTP 200;
-- fallo de PostgreSQL:
-  - HTTP 503;
-- no incluir credenciales ni detalles internos sensibles en la respuesta;
-- crear una experiencia 404 propia;
-- localizar 404 cuando sea razonablemente posible mediante la infraestructura i18n existente;
-- ofrecer enlace de retorno a una ruta válida;
-- preservar Linear Calm;
-- preservar responsive foundation;
-- preservar persistencia e i18n ya aceptadas;
-- mantener `astro check` y build limpios.
+Actualizar únicamente `DESIGN.md` para hacer operativa la identidad de Valhalla.
 
-## Arquitectura esperada
+Debe quedar definido:
 
-La implementación debe tender a una estructura equivalente a:
+### Núcleo de identidad
 
-- `src/layouts/BaseLayout.astro`
-- `src/components/AppShell.astro`
-- `src/components/LanguageSwitcher.astro`
-- componente reutilizable para estados de feedback;
-- `src/pages/api/health.ts`
-- `src/pages/404.astro`
+- qué significa "fitness moderno";
+- qué significa "identidad vikinga sutil";
+- cómo conviven fuerza y claridad;
+- cómo se mantiene una experiencia accesible para principiantes sin infantilizarla;
+- qué elementos deben hacer reconocible a Valhalla incluso sin decoración nórdica explícita.
 
-Los nombres exactos pueden variar si existe una alternativa claramente más simple.
+### Principios de expresión
 
-## Navegación
+Definir principios equivalentes a:
 
-No crear enlaces a funcionalidades todavía inexistentes.
+- funcionalidad antes que temática;
+- fuerza sin agresividad visual innecesaria;
+- épica mediante jerarquía, lenguaje y composición, no mediante ornamentación constante;
+- identidad nórdica como acento, no como estructura obligatoria de cada componente;
+- modernidad antes que recreación histórica;
+- claridad antes que metáforas de marca.
 
-En esta fase basta con una navegación mínima y real.
+### Identidad nórdica
 
-No crear por anticipado:
+Precisar:
 
-- Dashboard;
-- Rutinas;
-- Entrenamientos;
-- Ejercicios;
-- Progreso;
-- Perfil;
-- Ajustes.
+- cuándo tiene sentido usar geometría, escudos o emblemas;
+- cuándo no deben utilizarse;
+- que los símbolos históricos requieren validar significado y contexto antes de incorporarlos;
+- que no se deben utilizar símbolos históricos como simple decoración desconocida;
+- que Valhalla debe seguir siendo reconocible aunque una pantalla no contenga ningún símbolo nórdico.
 
-Esos destinos aparecerán cuando sus fases funcionales estén autorizadas.
+### Lenguaje de marca
 
-## Health endpoint
+Mantener las expresiones existentes y definir su uso con moderación.
 
-`/api/health` debe realizar una consulta mínima a PostgreSQL.
+El lenguaje temático debe reservarse principalmente para:
 
-La respuesta no debe exponer:
+- progreso;
+- logros;
+- recapitulaciones;
+- hitos;
+- narrativa personal.
 
-- `DATABASE_URL`;
-- host;
-- puerto;
-- usuario;
-- versión exacta de PostgreSQL;
-- stack traces;
-- mensajes internos del driver.
+No sustituir términos funcionales claros por metáforas cuando puedan dificultar la comprensión.
 
-Formato mínimo healthy equivalente a:
+Por ejemplo, acciones estándar como:
 
-```json
-{
-  "status": "ok",
-  "database": "ok"
-}
-```
+- Guardar;
+- Cancelar;
+- Editar;
+- Eliminar;
+- Iniciar sesión;
 
-En fallo de base de datos, formato equivalente a:
+deben seguir siendo explícitas salvo que exista una razón de UX concreta para otra denominación.
 
-```json
-{
-  "status": "degraded",
-  "database": "unavailable"
-}
-```
+### Límites
 
-## Estados
+Debe quedar explícito que Valhalla no es:
 
-Loading, empty y error deben ser componentes foundation reutilizables, no pantallas funcionales inventadas.
+- una interfaz RPG;
+- una recreación histórica;
+- una estética gamer/neón;
+- una colección de runas;
+- una interfaz agresiva o intimidante;
+- una excusa para sacrificar accesibilidad;
+- una marca basada únicamente en escudos, metal, piedra o iconografía nórdica.
 
-Deben contemplar como mínimo:
+## Fuente de verdad
 
-- semántica accesible adecuada;
-- título;
-- descripción opcional;
-- espacio para acción cuando proceda;
-- integración con tokens existentes.
+`DESIGN.md` sigue siendo la fuente de verdad de identidad visual y UX.
 
-No introducir animaciones complejas ni nuevas dependencias.
-
-## 404
-
-Debe:
-
-- utilizar el diseño del App Shell cuando sea viable;
-- presentar mensaje comprensible;
-- ofrecer regreso a `/` o `/en/` según locale cuando el locale llegue a la página 404;
-- no mostrar detalles internos de routing.
-
-### Comportamiento i18n aceptado para rutas inexistentes
-
-Se preserva la decisión `ACCEPTED_LOCKED` de FASE 4.4:
-
-- fallback `EN -> ES`;
-- `fallbackType: redirect`.
-
-Como consecuencia, una ruta inexistente bajo `/en/...` es redirigida por Astro a su equivalente sin prefijo antes de resolverse la 404, por lo que termina mostrando la 404 española.
-
-Este comportamiento se acepta en la foundation actual.
-
-No se modifica el routing, no se añade middleware y no se crea un catch-all únicamente para obtener una 404 inglesa.
-
-Una 404 estrictamente localizada por locale queda diferida hasta que exista una necesidad funcional que justifique cambiar la estrategia de routing.
+No crear un segundo documento de identidad que duplique sus decisiones.
 
 ## Scope excluido
 
-- autenticación;
-- Better Auth;
-- Dashboard funcional;
-- navegación de producto definitiva;
-- sidebar funcional de producto;
-- CRUD;
-- ejercicios;
-- rutinas;
-- entrenamientos;
-- métricas;
-- perfil;
-- settings;
-- datos ficticios de producto;
-- loading derivado de navegación SPA;
-- client-side router;
-- nuevas dependencias;
-- nuevas tablas;
-- nuevas migraciones de dominio;
-- Production;
-- systemd;
-- reverse proxy;
-- cambios de paleta;
-- rediseño de Linear Calm.
+No modificar en esta fase:
+
+- código;
+- componentes;
+- App Shell;
+- paleta;
+- valores de `Linear Calm`;
+- tokens;
+- tipografía;
+- geometría visual concreta;
+- iconografía concreta;
+- logo;
+- logotipo;
+- emblema definitivo;
+- ilustraciones;
+- motion;
+- microinteracciones;
+- accesibilidad técnica;
+- landing;
+- copy comercial;
+- manifiesto público;
+- páginas About/Sobre Valhalla.
+
+Esos elementos pertenecen a fases posteriores.
 
 ## Criterio de aceptación
 
-- `/` y `/en/` utilizan el mismo layout y App Shell;
-- no existe duplicación significativa de estructura entre idiomas;
-- selector ES / EN funciona desde el shell;
-- navegación solo apunta a destinos existentes;
-- loading, empty y error existen como foundation reutilizable;
-- `/api/health` devuelve 200 con PostgreSQL operativo;
-- `/api/health` devuelve 503 cuando PostgreSQL no está disponible;
-- health no filtra información sensible;
-- existe 404 personalizada;
-- 404 ofrece una vía válida de regreso;
-- layout funciona en móvil y desktop;
-- no hay overflow horizontal;
-- `npm run check` finaliza con 0 errores;
-- `npm run build` finaliza correctamente;
-- `npm audit --omit=dev` mantiene 0 vulnerabilidades;
+- `DESIGN.md` conserva la baseline aceptada;
+- la identidad "fitness moderno + vikinga sutil" queda explicada de forma operativa;
+- queda claro qué es y qué no es Valhalla;
+- queda definido cuándo usar lenguaje temático y cuándo priorizar lenguaje funcional;
+- la identidad nórdica queda subordinada a usabilidad y claridad;
+- no se introducen decisiones propias de FASE 5.2 o posteriores;
+- no se modifica código;
 - `git diff --check` está limpio.
 
 ## Estado previo
 
-- FASE 4.1 — Bootstrap Astro: `ACCEPTED_LOCKED`.
-- FASE 4.2 — UI base: `ACCEPTED_LOCKED`.
-- FASE 4.3 — Responsive Foundation: `ACCEPTED_LOCKED`.
-- FASE 4.4 — Internacionalización: `ACCEPTED_LOCKED`.
-- FASE 4.5 — Persistencia: `ACCEPTED_LOCKED`.
+- FASE 4 — Fundación técnica: `ACCEPTED_LOCKED`.
+- FASE 4.6 — App Shell: `ACCEPTED_LOCKED`.
 
 ## Responsable principal
 
-Gemini implementa CURRENT.
+Oskar decide la identidad y acepta el resultado.
 
-ChatGPT apoya en arquitectura del shell, health endpoint, accesibilidad y revisión técnica.
+Gemini consolida la documentación autorizada.
 
-Oskar acepta el resultado funcional y visual.
+ChatGPT apoya detectando contradicciones, exceso temático y límites de scope.
 
 ## Después de aceptar
 
-FASE 4 — Fundación técnica queda completa.
+Siguiente candidato: FASE 5.2 — Sistema visual.
