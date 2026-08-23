@@ -1,5 +1,6 @@
 ---
-import '../../styles/global.css';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AppShell from '../../components/AppShell.astro';
 import UiFoundationDemo from '../../components/UiFoundationDemo.astro';
 import { getTranslations } from '../../i18n/config';
 
@@ -7,14 +8,8 @@ const locale = 'en';
 const messages = getTranslations(locale);
 ---
 
-<html lang={locale}>
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{messages.page.title}</title>
-	</head>
-	<body class="bg-background text-foreground font-body p-4 sm:p-6 lg:p-8 min-w-0">
-		<UiFoundationDemo locale={locale} messages={messages} />
-	</body>
-</html>
+<BaseLayout locale={locale} title={messages.page.title}>
+	<AppShell locale={locale} messages={messages}>
+		<UiFoundationDemo messages={messages} />
+	</AppShell>
+</BaseLayout>

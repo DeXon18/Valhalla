@@ -1,0 +1,64 @@
+---
+type Variant = 'loading' | 'empty' | 'error';
+
+type Props = {
+	variant: Variant;
+	title: string;
+	description?: string;
+} & (
+	| {
+			actionLabel: string;
+			actionHref: string;
+	  }
+	| {
+			actionLabel?: never;
+			actionHref?: never;
+	  }
+);
+
+const { variant, title, description, actionLabel, actionHref } = Astro.props;
+
+const hasAction = Boolean(actionLabel && actionHref);
+
+const isError = variant === 'error';
+const isLoading = variant === 'loading';
+---
+
+<div
+	class={
+		"p-6 rounded border space-y-3 text-center sm:text-left " +
+		(isError
+			? "bg-surface border-danger text-foreground"
+			: "bg-surface border-border text-foreground")
+	}
+	role={isError ? "alert" : undefined}
+	aria-live={isLoading ? "polite" : undefined}
+	aria-busy={isLoading ? "true" : undefined}
+>
+	<div class="space-y-1">
+		<h2
+			class={
+				"font-heading font-bold text-base tracking-wide " +
+				(isError ? "text-danger" : "text-foreground")
+			}
+		>
+			{title}
+		</h2>
+		{description && (
+			<p class="text-muted text-xs sm:text-sm leading-relaxed">
+				{description}
+			</p>
+		)}
+	</div>
+
+	{hasAction && (
+		<div class="pt-2">
+			<a
+				href={actionHref}
+				class="inline-block bg-primary text-primary-foreground font-semibold px-4 py-2 rounded text-xs sm:text-sm hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-none"
+			>
+				{actionLabel}
+			</a>
+		</div>
+	)}
+</div>

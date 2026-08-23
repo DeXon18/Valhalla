@@ -1,0 +1,48 @@
+---
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import type { Translations } from '../i18n/es';
+
+interface Props {
+	locale: 'es' | 'en';
+	messages: Translations;
+	homeIsCurrent?: boolean;
+}
+
+const { locale, messages: t, homeIsCurrent = true } = Astro.props;
+const homeUrl = getRelativeLocaleUrl(locale, '');
+---
+
+<div class="max-w-xl md:max-w-3xl lg:max-w-4xl mx-auto space-y-6 min-w-0">
+	<!-- Cabecera compartida del App Shell -->
+	<header class="flex items-center justify-between border-b border-border pb-4">
+		<div class="flex items-center gap-6">
+			<a
+				href={homeUrl}
+				class="font-heading font-bold text-lg tracking-wider text-foreground hover:text-primary transition-none"
+			>
+				Valhalla
+			</a>
+			<nav aria-label={t.nav.label}>
+				<a
+					href={homeUrl}
+					class={
+						"text-xs font-medium transition-none " +
+						(homeIsCurrent
+							? "text-primary"
+							: "text-muted hover:text-foreground")
+					}
+					aria-current={homeIsCurrent ? 'page' : undefined}
+				>
+					{t.nav.home}
+				</a>
+			</nav>
+		</div>
+		<LanguageSwitcher locale={locale} messages={t} />
+	</header>
+
+	<!-- Área principal de contenido -->
+	<main class="space-y-6 min-w-0">
+		<slot />
+	</main>
+</div>
