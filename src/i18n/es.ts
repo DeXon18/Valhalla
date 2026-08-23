@@ -16,6 +16,8 @@ export const es = {
   },
   language: {
     selectorLabel: 'Selector de idioma',
+    esLabel: 'Español',
+    enLabel: 'English',
   },
   feedback: {
     loading: {

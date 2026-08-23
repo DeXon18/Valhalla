@@ -18,6 +18,8 @@ export const en: Translations = {
   },
   language: {
     selectorLabel: 'Language selector',
+    esLabel: 'Español',
+    enLabel: 'English',
   },
   feedback: {
     loading: {

@@ -4,11 +4,11 @@ Estado: `AWAITING_OWNER_REVIEW`
 
 ## Tarea autorizada
 
-FASE 5.4 — Motion.
+FASE 5.5 — Accesibilidad.
 
 ## Resultado observable
 
-Los controles interactivos de Valhalla proporcionan feedback visual breve y funcional durante hover, foco, selección y presión, sin introducir animación ornamental y respetando `prefers-reduced-motion`.
+La foundation visual de Valhalla queda usable mediante teclado, con foco perceptible, targets táctiles adecuados, semántica nativa correcta y contraste suficiente, sin depender únicamente del color ni degradar la identidad `Linear Calm`.
 
 ## Baseline preservada
 
@@ -17,233 +17,294 @@ Se conserva:
 - FASE 5.1 — Identidad: `ACCEPTED_LOCKED`;
 - FASE 5.2 — Sistema visual: `ACCEPTED_LOCKED`;
 - FASE 5.3 — Componentes: `ACCEPTED_LOCKED`;
+- FASE 5.4 — Motion: `ACCEPTED_LOCKED`;
 - `Linear Calm`;
-- geometría y jerarquía actuales;
 - responsive foundation;
-- semántica y accesibilidad foundation existentes;
-- comportamiento funcional de Button, TextInput, AppShell y LanguageSwitcher.
+- i18n ES / EN;
+- reduced-motion;
+- arquitectura actual de componentes.
 
-Motion no debe alterar layout, navegación, contenido ni funcionalidad.
+No rediseñar la interfaz.
 
 ## Principios
 
-El motion de Valhalla debe ser:
+Priorizar HTML y comportamiento nativo antes que ARIA adicional.
 
-- breve;
-- funcional;
-- discreto;
-- predecible;
-- subordinado a claridad y usabilidad.
+No añadir ARIA cuando el elemento HTML ya comunique correctamente su función.
 
-El movimiento debe comunicar principalmente:
+La accesibilidad debe mantenerse aunque:
 
-- interactividad;
-- cambio de estado;
-- foco;
-- selección;
-- presión de una acción.
+- no exista hover;
+- el usuario navegue solo con teclado;
+- reduced-motion esté activo;
+- no pueda distinguirse un estado únicamente por color.
 
-No debe utilizarse para decorar una pantalla estática.
+## Contraste
 
-## Transiciones
+Realizar una comprobación cuantitativa sobre los valores reales de `Linear Calm`.
 
-Los controles interactivos pueden utilizar transiciones breves, aproximadamente en el rango de `120–180ms`.
+Comprobar como mínimo:
 
-Usar una duración consistente cuando no exista una razón específica para otra.
+### Texto
 
-Las transiciones deben limitarse a propiedades justificadas, como:
+- foreground sobre background;
+- foreground sobre surface;
+- muted sobre background;
+- muted sobre surface;
+- primary sobre background/surface cuando se utilice como texto;
+- primary-foreground sobre primary;
+- success sobre surface;
+- warning sobre surface;
+- danger sobre surface.
 
-- color;
-- background-color;
-- border-color;
-- opacity;
-- transform únicamente cuando comunique interacción.
+Objetivo para texto normal:
 
-Evitar `transition-all`.
+- WCAG AA >= 4.5:1.
 
-No animar propiedades de layout como:
+### Controles y foco
 
-- width;
-- height;
-- padding;
-- margin;
-- position;
+Comprobar los contrastes relevantes de:
 
-salvo necesidad futura demostrada.
+- borde de TextInput;
+- borde de Button secondary;
+- outline de foco;
+- estados de error;
+- cualquier límite visual necesario para identificar un control.
 
-## Button
+Cuando una frontera visual sea necesaria para reconocer un componente:
 
-`Button` debe proporcionar feedback visual para estados interactivos.
+- objetivo mínimo de contraste no textual: 3:1 respecto al color adyacente.
 
-Mantener:
+No modificar la paleta por intuición.
 
-- primary;
-- secondary;
-- disabled;
-- button;
-- anchor.
+Si algún caso incumple realmente el criterio, aplicar la corrección mínima y semánticamente coherente.
 
-Añadir:
+Un cambio de token de `Linear Calm` solo está autorizado si el análisis cuantitativo demuestra que es necesario para accesibilidad.
 
-- transición breve de las propiedades visuales actualmente utilizadas;
-- microinteracción de presión muy sutil cuando el control sea interactivo.
+Documentar el motivo si ocurre.
 
-La microinteracción:
+## Foco visible
 
-- no debe producir desplazamientos perceptibles del layout;
-- no debe aplicarse a botones disabled;
-- debe desaparecer con `prefers-reduced-motion`.
+Todos los elementos interactivos de la foundation deben mostrar foco perceptible mediante teclado.
 
-No añadir:
+Revisar especialmente:
 
-- ripple;
-- bounce;
-- elastic easing;
-- glow;
-- animaciones decorativas;
-- loading animation.
+- Button;
+- TextInput;
+- marca/enlace Valhalla;
+- navegación Home / Inicio;
+- LanguageSwitcher.
+
+`AppShell` y `LanguageSwitcher` deben recibir tratamiento `focus-visible` coherente con Button y TextInput.
+
+No eliminar el outline del navegador sin proporcionar uno equivalente o superior.
+
+El foco debe seguir siendo visible con reduced-motion.
+
+## Targets táctiles
+
+Mejorar la foundation para evitar targets innecesariamente pequeños.
+
+Como dirección de producto:
+
+- controles principales y campos deben tender a un área de interacción de aproximadamente 44 CSS px de alto;
+- los controles compactos de navegación deben conservar una superficie táctil suficientemente cómoda;
+- ampliar el área clicable mediante padding/min-size, no mediante texto artificialmente grande.
+
+Revisar:
+
+- Button;
+- TextInput;
+- enlace de marca Valhalla;
+- Home / Inicio;
+- ES;
+- EN.
+
+No romper el header a 360 CSS px.
 
 ## TextInput
 
-`TextInput` puede transicionar brevemente:
+Preservar:
 
-- borde;
-- color relacionado con foco/error cuando corresponda.
+- label visible;
+- asociación `for` / `id`;
+- `required` nativo;
+- `disabled` nativo;
+- `aria-invalid`;
+- `aria-describedby`;
+- ayuda y error asociados.
 
-No animar:
+El asterisco visual de required puede seguir con `aria-hidden` porque el atributo HTML `required` comunica el estado semánticamente.
 
-- tamaño;
-- label;
-- placeholder;
-- mensajes de ayuda/error mediante entrada/salida automática.
+No sustituir labels por placeholders.
 
-Mantener foco claramente visible incluso sin motion.
+## Button
 
-## AppShell y LanguageSwitcher
+Preservar:
 
-Los enlaces interactivos actuales pueden transicionar brevemente sus cambios de color o selección.
+- `<button>` para acciones;
+- `<a>` para navegación;
+- disabled únicamente en botones;
+- foco visible;
+- motion/reduced-motion aceptados.
 
-No introducir:
+Revisar target táctil sin introducir tamaños múltiples ni nueva API innecesaria.
 
-- navegación animada;
-- page transitions;
-- sliding navigation;
-- indicadores móviles animados;
-- JavaScript cliente.
+## AppShell
 
-## Card y FeedbackState
+Revisar:
 
-`Card` no requiere motion propio.
+- foco visible de los enlaces;
+- orden natural de tabulación;
+- tamaño de target;
+- `aria-current` de la ruta actual.
 
-`FeedbackState` no requiere animación propia en esta fase.
+No crear navegación funcional nueva.
 
-La variante loading puede permanecer estática.
+No añadir tabindex manual salvo necesidad demostrable.
 
-No añadir spinner únicamente para satisfacer FASE 5.4.
+## LanguageSwitcher
 
-Las acciones de `FeedbackState` heredan el comportamiento de `Button`.
+Preservar:
+
+- navegación nativa mediante enlaces;
+- label accesible del conjunto;
+- URLs ES / EN.
+
+Corregir la semántica de estado actual si `aria-current="page"` no representa correctamente el significado de la selección de idioma.
+
+Preferir un valor ARIA válido que indique el elemento actual del conjunto sin afirmar incorrectamente que el enlace siempre representa la página actual.
+
+Añadir metadatos de idioma del enlace únicamente si aportan semántica real.
+
+Revisar además:
+
+- foco visible;
+- targets táctiles;
+- comportamiento a 360 CSS px.
+
+## FeedbackState
+
+Preservar:
+
+- error con `role="alert"`;
+- loading con `aria-live="polite"`;
+- loading con `aria-busy`;
+- contenido comprensible sin depender exclusivamente del color.
+
+No añadir anuncios ARIA adicionales sin necesidad.
+
+## Estructura de documento
+
+Preservar:
+
+- `html lang`;
+- un área `<main>`;
+- headings comprensibles;
+- landmarks de navegación etiquetados.
+
+No añadir skip-link mientras la navegación siga siendo mínima salvo que la prueba de teclado demuestre una necesidad real.
+
+## Teclado
+
+Validar manualmente como mínimo en `/`:
+
+- Tab desde el inicio;
+- marca Valhalla;
+- Home / Inicio;
+- ES;
+- EN;
+- Button primary;
+- Button secondary;
+- Button disabled debe omitirse del orden de foco;
+- TextInput normal;
+- TextInput help;
+- TextInput error.
+
+Comprobar:
+
+- orden lógico;
+- foco siempre visible;
+- activación mediante teclado de enlaces y botones;
+- ausencia de trampas de foco.
+
+No introducir JavaScript para gestionar foco.
 
 ## Reduced motion
 
-Todo motion no esencial introducido por esta fase debe respetar:
+Preservar íntegramente FASE 5.4.
 
-`prefers-reduced-motion: reduce`.
+La ausencia de transición con `prefers-reduced-motion: reduce` no puede eliminar:
 
-Cuando el usuario solicita reducción de movimiento:
-
-- eliminar transiciones no esenciales;
-- eliminar transforms de presión;
-- conservar inmediatamente los estados visuales finales;
-- conservar foco, hover, selección, error y demás información necesaria.
-
-Reduced motion no significa eliminar feedback funcional.
+- foco;
+- selección;
+- error;
+- hover;
+- estado actual;
+- cualquier otro feedback funcional.
 
 ## Documentación
 
-Actualizar `DESIGN.md` únicamente para consolidar reglas reutilizables de motion.
+Consolidar en `DESIGN.md` únicamente las reglas reutilizables que resulten confirmadas por esta fase:
 
-Debe quedar explícito:
+- contraste;
+- foco;
+- teclado;
+- targets;
+- labels/semántica;
+- reduced-motion.
 
-- motion breve y funcional;
-- rango temporal orientativo;
-- evitar `transition-all`;
-- movimiento reservado a cambios de estado/interacción;
-- ausencia de animación ambiental o decorativa;
-- reduced-motion obligatorio.
-
-No convertir `DESIGN.md` en una especificación extensa de animación.
-
-## Scope técnico esperado
-
-Revisar únicamente cuando sea necesario:
-
-- `src/components/Button.astro`;
-- `src/components/TextInput.astro`;
-- `src/components/AppShell.astro`;
-- `src/components/LanguageSwitcher.astro`;
-- `DESIGN.md`.
-
-No modificar `Card` o `FeedbackState` salvo contradicción demostrable.
+Mantener la sección concisa.
 
 ## Scope excluido
 
 - nuevas dependencias;
+- librerías de auditoría añadidas al proyecto;
 - React;
-- librerías de motion;
-- View Transitions;
-- page transitions;
-- animaciones de entrada de páginas;
-- scroll animations;
-- parallax;
-- loaders animados;
-- skeleton animations;
-- modal transitions;
-- toast animations;
-- charts;
-- cambios de paleta;
-- cambios de tipografía;
-- cambios de spacing;
+- JavaScript cliente;
+- focus traps;
+- modales;
+- nuevos controles;
 - nuevas rutas;
 - funcionalidades de producto;
+- cambios de branding;
+- rediseño de paleta no justificado por contraste;
 - Production;
 - Cloudflare.
 
 ## Criterio de aceptación
 
-- controles interactivos dejan de depender de `transition-none` como comportamiento general;
-- las transiciones son breves y limitadas a propiedades justificadas;
-- Button dispone de una microinteracción de presión discreta;
-- disabled no presenta motion interactivo;
-- TextInput conserva foco y error claros;
-- AppShell y LanguageSwitcher mantienen comportamiento actual;
-- `prefers-reduced-motion` elimina motion no esencial;
-- no se usa `transition-all`;
+- contraste textual relevante cumple WCAG AA;
+- límites visuales necesarios de controles cumplen contraste no textual adecuado;
+- todos los controles interactivos visibles disponen de foco perceptible;
+- navegación mediante teclado tiene orden lógico;
+- Button disabled no entra en la secuencia de foco;
+- labels y errores de TextInput mantienen asociaciones accesibles;
+- estado actual del LanguageSwitcher utiliza semántica correcta;
+- targets táctiles son adecuados sin romper 360 CSS px;
+- los estados no dependen únicamente del color;
+- reduced-motion conserva feedback funcional;
+- `/` y `/en/` mantienen paridad;
+- no hay overflow horizontal;
 - no se añaden dependencias;
-- no hay cambios de layout;
-- `/` y `/en/` siguen siendo funcionalmente equivalentes;
-- no aparece overflow horizontal;
 - `npm run check` finaliza con 0 errores;
 - `npm run build` finaliza correctamente;
 - `npm audit --omit=dev` mantiene 0 vulnerabilidades;
 - `git diff --check` está limpio.
 
-## Validación visual requerida
+## Validación visual y manual requerida
 
-Revisar como mínimo:
+Revisar:
 
-- Button primary;
-- Button secondary;
-- Button disabled;
-- TextInput;
-- LanguageSwitcher;
-- navegación del App Shell.
-
-Comprobar tanto:
-
-- comportamiento normal;
-- `prefers-reduced-motion: reduce`.
-
-La validación visual debe confirmar que el movimiento se percibe como feedback y no como animación decorativa.
+- 360 CSS px;
+- desktop;
+- navegación por Tab;
+- foco visible;
+- targets;
+- estado normal y error de TextInput;
+- primary / secondary / disabled;
+- selector ES / EN;
+- reduced-motion.
 
 ## Estado previo
 
@@ -251,15 +312,16 @@ La validación visual debe confirmar que el movimiento se percibe como feedback 
 - FASE 5.1 — Identidad: `ACCEPTED_LOCKED`.
 - FASE 5.2 — Sistema visual: `ACCEPTED_LOCKED`.
 - FASE 5.3 — Componentes: `ACCEPTED_LOCKED`.
+- FASE 5.4 — Motion: `ACCEPTED_LOCKED`.
 
 ## Responsable principal
 
-Gemini implementa el motion autorizado.
+Gemini implementa y documenta las correcciones autorizadas.
 
-ChatGPT revisa alcance, comportamiento y reduced-motion.
+ChatGPT revisa contraste, semántica, foco, teclado, targets y límites de scope.
 
-Oskar realiza la aceptación visual.
+Oskar realiza la validación visual y manual.
 
 ## Después de aceptar
 
-Siguiente candidato: FASE 5.5 — Accesibilidad.
+FASE 5 — Identidad visual y UX base queda completa.
