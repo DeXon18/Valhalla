@@ -4,56 +4,61 @@ Estado: `AWAITING_OWNER_REVIEW`
 
 ## Tarea autorizada
 
-Corrección de baseline — consolidar el sistema de agentes bajo una única raíz `.agents/`.
-
-## Motivo
-
-La estructura aceptada mantenía Rules y Workflows bajo dos raíces distintas.
-
-La corrección unifica el contexto operativo del workspace para evitar ambigüedad.
+FASE 4.1 — Bootstrap Astro.
 
 ## Resultado observable
 
-Existe una única raíz `.agents/`:
-
-- `.agents/rules/`
-- `.agents/workflows/`
-- `.agents/skills/` cuando sea necesaria;
-- `.agents/integrations/` cuando sea necesaria.
-
-La raíz legacy singular ha sido eliminada.
+Existe una primera aplicación Valhalla ejecutable en Development usando Astro SSR con adaptador Node y TypeScript estricto.
 
 ## Scope incluido
 
-- mover las cuatro Rules existentes a `.agents/rules/`;
-- actualizar `VALHALLA.md` para reflejar una única raíz `.agents/`;
-- comprobar que no quedan referencias activas a la raíz legacy.
+- inicializar el proyecto Astro en el repositorio existente;
+- configurar modo SSR;
+- usar `@astrojs/node`;
+- configurar TypeScript strict;
+- crear la estructura mínima necesaria bajo `src/`;
+- definir scripts npm mínimos para desarrollo y build;
+- generar y versionar `package-lock.json`;
+- incluir una página mínima que permita comprobar que la aplicación arranca;
+- validar que el proyecto puede ejecutarse y compilarse.
+
+Las versiones exactas de Astro, `@astrojs/node` y dependencias deberán verificarse contra documentación oficial antes de instalarlas.
 
 ## Scope excluido
 
-- modificar contenido funcional de las Rules;
-- modificar Workflows;
-- crear Skills;
-- crear Integrations o MCP;
-- Bootstrap Astro;
-- cualquier cambio de producto.
+- Tailwind y sistema visual;
+- diseño definitivo;
+- responsive;
+- internacionalización ES/EN;
+- Drizzle o integración PostgreSQL;
+- autenticación;
+- App Shell completa;
+- tests adicionales sin comportamiento que proteger;
+- Production;
+- Cloudflare;
+- Skills o MCP sin necesidad concreta.
 
 ## Criterio de aceptación
 
-- existe una única raíz `.agents/`;
-- las cuatro Rules existen bajo `.agents/rules/`;
-- los Workflows existentes permanecen bajo `.agents/workflows/`;
-- no quedan referencias a la raíz legacy;
-- `git diff --check` finaliza sin errores.
+- `npm install` produce dependencias reproducibles mediante `package-lock.json`;
+- Astro está configurado como SSR con Node;
+- TypeScript utiliza configuración estricta;
+- la aplicación mínima arranca correctamente en Development;
+- `npm run build` finaliza correctamente;
+- no se ha incorporado funcionalidad perteneciente a fases posteriores.
 
 ## Estado previo
 
-- FASE 3.1 — Contratos principales: `ACCEPTED_LOCKED`.
-- FASE 3.2 — Rules: `ACCEPTED_LOCKED`, reabierta únicamente para esta corrección estructural.
-- FASE 3.3 — Workflows: `ACCEPTED_LOCKED`.
+FASE 3 — Sistema de agentes base: `ACCEPTED_LOCKED`.
 
-FASE 4.1 permanece pausada hasta integrar esta corrección.
+Las Skills e integraciones del catálogo permanecen diferidas y se crearán únicamente cuando una tarea real las necesite.
+
+## Responsable principal
+
+Gemini implementa CURRENT.
+
+ChatGPT apoya en verificación técnica, arquitectura o bloqueos reales.
 
 ## Después de aceptar
 
-Reanudar FASE 4.1 — Bootstrap Astro.
+Siguiente candidato: FASE 4.2 — UI base.
