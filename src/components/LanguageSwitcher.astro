@@ -13,29 +13,33 @@ const esUrl = getRelativeLocaleUrl('es', '');
 const enUrl = getRelativeLocaleUrl('en', '');
 ---
 
-<nav aria-label={t.language.selectorLabel} class="flex items-center">
+<nav aria-label={t.language.selectorLabel} class="flex items-center shrink-0">
 	<div class="flex items-center gap-1 p-0.5 rounded border border-border bg-surface text-xs">
 		<a
 			href={esUrl}
+			hreflang="es"
+			aria-label={t.language.esLabel}
 			class={
-				"px-2.5 py-1 rounded font-medium transition-colors duration-150 motion-reduce:transition-none " +
+				"inline-flex items-center justify-center min-h-11 min-w-11 px-3 py-2 rounded transition-colors duration-150 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary " +
 				(locale === 'es'
-					? 'bg-primary text-primary-foreground'
-					: 'text-muted hover:text-foreground')
+					? 'bg-primary text-primary-foreground font-bold'
+					: 'text-muted hover:text-foreground font-medium')
 			}
-			aria-current={locale === 'es' ? 'page' : undefined}
+			aria-current={locale === 'es' ? 'true' : undefined}
 		>
 			ES
 		</a>
 		<a
 			href={enUrl}
+			hreflang="en"
+			aria-label={t.language.enLabel}
 			class={
-				"px-2.5 py-1 rounded font-medium transition-colors duration-150 motion-reduce:transition-none " +
+				"inline-flex items-center justify-center min-h-11 min-w-11 px-3 py-2 rounded transition-colors duration-150 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary " +
 				(locale === 'en'
-					? 'bg-primary text-primary-foreground'
-					: 'text-muted hover:text-foreground')
+					? 'bg-primary text-primary-foreground font-bold'
+					: 'text-muted hover:text-foreground font-medium')
 			}
-			aria-current={locale === 'en' ? 'page' : undefined}
+			aria-current={locale === 'en' ? 'true' : undefined}
 		>
 			EN
 		</a>

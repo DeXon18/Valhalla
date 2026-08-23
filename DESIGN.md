@@ -48,8 +48,9 @@ La baseline actual es `Linear Calm`: una interfaz dark contemporánea, sobria y 
 - `raised`: Nivel adicional de separación visual sobre `surface` para elementos destacados o subpaneles.
 - `border`: Separación estructural discreta entre elementos sin dominar la composición.
 - `border-subtle`: Delimitación de menor énfasis para divisiones internas o estados secundarios.
+- `control-border`: Borde de contraste suficiente (mínimo 3:1) para delimitar de forma inequívoca los controles interactivos (`TextInput`, `Button` secundario) sin engrosar la estructura general.
 - `foreground`: Información textual y gráfica principal (casi blanco, máximo contraste).
-- `muted`: Información secundaria, etiquetas de apoyo y estados atenuados.
+- `muted`: Información secundaria, etiquetas de apoyo y placeholders accesibles.
 - `primary`: Acento de marca (azul-violeta desaturado) exclusivo para acción, selección, foco y énfasis relevante. No es un color de relleno decorativo.
 - `primary-subtle`: Fondo de énfasis primario contenido para estados activos o seleccionados discretos.
 - `primary-foreground`: Texto legible de alto contraste sobre fondos con color `primary`.
@@ -176,7 +177,14 @@ Principios de movimiento e interacción:
 
 ## Accesibilidad
 
-Contraste suficiente, targets táctiles adecuados, labels, navegación por teclado, foco visible, información que no dependa solo del color y texto legible.
+Criterios foundation y WCAG AA:
+
+- **Contraste de texto:** Mínimo 4.5:1 para texto normal (`foreground`, `muted`, `primary-foreground` sobre sus fondos correspondientes) y 3:1 para texto grande. Placeholders con contraste suficiente (`text-muted`).
+- **Límites de controles:** Mínimo 3:1 para la frontera visual de controles interactivos (`control-border`).
+- **Targets táctiles:** Área interactiva mínima de aproximadamente 44 × 44 CSS px (`min-h-11`, `min-w-11`) en todos los controles interactivos y enlaces de cabecera.
+- **Foco visible:** Indicador de foco perceptible y de alto contraste (`focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary`) en todos los elementos interactivos. Sin `tabindex` manual ni alteraciones del flujo natural del DOM.
+- **Semántica y nombres accesibles:** HTML nativo antes que ARIA. Labels visibles vinculadas mediante `for`/`id`. Uso de `aria-invalid` y `aria-describedby` para errores y ayuda. Enlaces multilingües con `hreflang` y nombres descriptivos inequívocos.
+- **Estados no cromáticos:** Los estados activo, seleccionado o actual no deben depender exclusivamente del color (acompañar de variación de peso tipográfico, subrayado o fondo diferenciado).
 
 ## Acciones destructivas
 

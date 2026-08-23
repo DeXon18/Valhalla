@@ -7,6 +7,7 @@
   --color-raised: var(--theme-raised);
   --color-border: var(--theme-border);
   --color-border-subtle: var(--theme-border-subtle);
+  --color-control-border: var(--theme-control-border);
   --color-foreground: var(--theme-foreground);
   --color-muted: var(--theme-muted);
   --color-primary: var(--theme-primary);

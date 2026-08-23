@@ -1,6 +1,6 @@
 # CURRENT
 
-Estado: `IN_PROGRESS`
+Estado: `AWAITING_OWNER_REVIEW`
 
 ## Tarea autorizada
 

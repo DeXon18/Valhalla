@@ -61,10 +61,10 @@ const describedBy = [errorId, helpId].filter(Boolean).join(' ') || undefined;
 		aria-invalid={hasError ? 'true' : undefined}
 		aria-describedby={describedBy}
 		class={
-			"w-full px-3 py-2 rounded text-sm bg-background border transition-colors duration-150 motion-reduce:transition-none placeholder:text-muted/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 " +
+			"w-full px-3 py-2 min-h-11 rounded text-sm bg-background border transition-colors duration-150 motion-reduce:transition-none placeholder:text-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 " +
 			(hasError
 				? "border-danger text-foreground focus-visible:outline-danger"
-				: "border-border text-foreground focus-visible:outline-primary") +
+				: "border-control-border text-foreground focus-visible:outline-primary") +
 			(disabled ? " opacity-40 cursor-not-allowed" : "")
 		}
 	/>
