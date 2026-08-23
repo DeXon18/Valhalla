@@ -26,14 +26,17 @@ const {
 } = Astro.props;
 
 const baseStyles =
-	'inline-flex items-center justify-center font-semibold px-4 py-2 rounded text-sm text-center transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary';
+	'inline-flex items-center justify-center font-semibold px-4 py-2 rounded text-sm text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary';
+
+const motionStyles =
+	'transition-[color,background-color,border-color,transform] duration-150 motion-reduce:transition-none active:scale-[0.98] motion-reduce:active:scale-100';
 
 let variantStyles = '';
 if (href) {
 	variantStyles =
 		variant === 'primary'
-			? 'bg-primary text-primary-foreground hover:bg-primary-hover cursor-pointer'
-			: 'bg-raised text-foreground border border-border hover:border-foreground/30 cursor-pointer';
+			? `bg-primary text-primary-foreground hover:bg-primary-hover cursor-pointer ${motionStyles}`
+			: `bg-raised text-foreground border border-border hover:border-foreground/30 cursor-pointer ${motionStyles}`;
 } else if (disabled) {
 	variantStyles =
 		variant === 'primary'
@@ -42,8 +45,8 @@ if (href) {
 } else {
 	variantStyles =
 		variant === 'primary'
-			? 'bg-primary text-primary-foreground hover:bg-primary-hover cursor-pointer'
-			: 'bg-raised text-foreground border border-border hover:border-foreground/30 cursor-pointer';
+			? `bg-primary text-primary-foreground hover:bg-primary-hover cursor-pointer ${motionStyles}`
+			: `bg-raised text-foreground border border-border hover:border-foreground/30 cursor-pointer ${motionStyles}`;
 }
 ---
 

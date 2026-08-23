@@ -4,13 +4,11 @@ Estado: `AWAITING_OWNER_REVIEW`
 
 ## Tarea autorizada
 
-FASE 5.3 — Componentes.
+FASE 5.4 — Motion.
 
 ## Resultado observable
 
-Valhalla dispone de una foundation mínima de componentes visuales reutilizables y coherentes con `Linear Calm`, visible en la muestra técnica actual y preparada para ser utilizada posteriormente por las pantallas reales del producto.
-
-La fase debe reducir duplicación visual existente sin crear una librería de componentes generalista ni anticipar necesidades de producto todavía inexistentes.
+Los controles interactivos de Valhalla proporcionan feedback visual breve y funcional durante hover, foco, selección y presión, sin introducir animación ornamental y respetando `prefers-reduced-motion`.
 
 ## Baseline preservada
 
@@ -18,287 +16,212 @@ Se conserva:
 
 - FASE 5.1 — Identidad: `ACCEPTED_LOCKED`;
 - FASE 5.2 — Sistema visual: `ACCEPTED_LOCKED`;
+- FASE 5.3 — Componentes: `ACCEPTED_LOCKED`;
 - `Linear Calm`;
-- tokens cromáticos existentes;
-- tipografía de sistema;
-- geometría simple y radios contenidos;
-- superficies predominantemente planas;
-- profundidad mediante luminosidad, bordes y espacio;
+- geometría y jerarquía actuales;
 - responsive foundation;
-- App Shell existente;
-- i18n ES / EN;
-- comportamiento de routing aceptado;
-- `FeedbackState` como foundation de loading / empty / error;
-- `LanguageSwitcher` como selector de idioma.
+- semántica y accesibilidad foundation existentes;
+- comportamiento funcional de Button, TextInput, AppShell y LanguageSwitcher.
 
-No rediseñar esas decisiones.
+Motion no debe alterar layout, navegación, contenido ni funcionalidad.
 
-## Principio de implementación
+## Principios
 
-Crear componentes solo cuando exista una necesidad real observable.
+El motion de Valhalla debe ser:
 
-En esta fase se justifican:
+- breve;
+- funcional;
+- discreto;
+- predecible;
+- subordinado a claridad y usabilidad.
 
-- `Button`;
-- `Card`;
-- `TextInput`.
+El movimiento debe comunicar principalmente:
 
-No crear una librería completa ni componentes genéricos para necesidades futuras hipotéticas.
+- interactividad;
+- cambio de estado;
+- foco;
+- selección;
+- presión de una acción.
+
+No debe utilizarse para decorar una pantalla estática.
+
+## Transiciones
+
+Los controles interactivos pueden utilizar transiciones breves, aproximadamente en el rango de `120–180ms`.
+
+Usar una duración consistente cuando no exista una razón específica para otra.
+
+Las transiciones deben limitarse a propiedades justificadas, como:
+
+- color;
+- background-color;
+- border-color;
+- opacity;
+- transform únicamente cuando comunique interacción.
+
+Evitar `transition-all`.
+
+No animar propiedades de layout como:
+
+- width;
+- height;
+- padding;
+- margin;
+- position;
+
+salvo necesidad futura demostrada.
 
 ## Button
 
-Crear un componente reutilizable equivalente a:
+`Button` debe proporcionar feedback visual para estados interactivos.
 
-- `src/components/Button.astro`.
+Mantener:
 
-Debe cubrir como mínimo:
+- primary;
+- secondary;
+- disabled;
+- button;
+- anchor.
 
-- variante primaria;
-- variante secundaria;
-- uso como `<button>`;
-- uso como enlace cuando exista `href`;
-- estado `disabled` únicamente cuando semánticamente corresponda a un botón;
-- foco visible;
-- hover existente;
-- contenido mediante slot;
-- estilos basados exclusivamente en tokens semánticos existentes.
+Añadir:
 
-La API debe ser pequeña.
+- transición breve de las propiedades visuales actualmente utilizadas;
+- microinteracción de presión muy sutil cuando el control sea interactivo.
 
-No introducir variantes únicamente porque podrían ser útiles en el futuro.
+La microinteracción:
 
-No crear:
-
-- icon buttons;
-- loading buttons;
-- split buttons;
-- tamaños múltiples salvo necesidad demostrada;
-- componentes React;
-- JavaScript cliente.
-
-Cuando sea razonable, reutilizar `Button` en acciones foundation ya existentes que actualmente duplican el mismo patrón visual, especialmente:
-
-- `FeedbackState`;
-- 404.
-
-No forzar la reutilización si empeora la semántica.
-
-## Card
-
-Crear un componente reutilizable equivalente a:
-
-- `src/components/Card.astro`.
-
-Debe representar el contenedor visual básico de Valhalla:
-
-- superficie;
-- borde;
-- radio contenido;
-- padding;
-- slot de contenido.
-
-Puede permitir `surface` / `raised` únicamente si esa distinción resulta útil para los usos actuales.
+- no debe producir desplazamientos perceptibles del layout;
+- no debe aplicarse a botones disabled;
+- debe desaparecer con `prefers-reduced-motion`.
 
 No añadir:
 
-- shadows por defecto;
-- headers complejos;
-- footers;
-- actions API;
-- layouts internos;
-- variantes temáticas;
-- geometría ornamental.
-
-La semántica HTML del contenido debe seguir perteneciendo al consumidor cuando sea necesario.
+- ripple;
+- bounce;
+- elastic easing;
+- glow;
+- animaciones decorativas;
+- loading animation.
 
 ## TextInput
 
-Crear una primitive de campo de texto equivalente a:
+`TextInput` puede transicionar brevemente:
 
-- `src/components/TextInput.astro`.
+- borde;
+- color relacionado con foco/error cuando corresponda.
 
-Debe cubrir como mínimo:
+No animar:
 
-- `id`;
-- `name`;
-- label visible;
-- tipo de input razonablemente necesario;
-- placeholder opcional;
-- required;
-- disabled;
-- texto de ayuda opcional;
-- mensaje de error opcional;
-- foco visible;
-- estado de error mediante token `danger`;
-- relación accesible entre input, ayuda y error;
-- `aria-invalid` cuando exista error.
+- tamaño;
+- label;
+- placeholder;
+- mensajes de ayuda/error mediante entrada/salida automática.
 
-La label no puede sustituirse únicamente por placeholder.
+Mantener foco claramente visible incluso sin motion.
 
-No crear:
+## AppShell y LanguageSwitcher
 
-- validación JavaScript;
-- formularios funcionales;
-- lógica de negocio;
-- integración con base de datos;
-- floating labels;
-- máscaras;
-- autocomplete avanzado;
-- select;
-- textarea;
-- checkbox;
-- radio;
-- date picker.
+Los enlaces interactivos actuales pueden transicionar brevemente sus cambios de color o selección.
 
-Esos controles se crearán cuando exista una necesidad funcional real.
+No introducir:
 
-## Navegación
+- navegación animada;
+- page transitions;
+- sliding navigation;
+- indicadores móviles animados;
+- JavaScript cliente.
 
-La foundation actual ya dispone de:
+## Card y FeedbackState
 
-- `AppShell`;
-- navegación Home / Inicio;
-- `LanguageSwitcher`;
-- estado actual mediante `aria-current`.
+`Card` no requiere motion propio.
 
-No crear destinos ni navegación de producto inexistentes.
+`FeedbackState` no requiere animación propia en esta fase.
 
-No crear un componente `NavLink` genérico únicamente para abstraer un único enlace actual.
+La variante loading puede permanecer estática.
 
-Solo ajustar navegación si existe una inconsistencia visual objetiva con el sistema aceptado.
+No añadir spinner únicamente para satisfacer FASE 5.4.
 
-## Feedback
+Las acciones de `FeedbackState` heredan el comportamiento de `Button`.
 
-`FeedbackState` sigue siendo la foundation para:
+## Reduced motion
 
-- loading;
-- empty;
-- error.
+Todo motion no esencial introducido por esta fase debe respetar:
 
-Preservar:
+`prefers-reduced-motion: reduce`.
 
-- semántica accesible;
-- `aria-live`;
-- `aria-busy`;
-- `role="alert"` cuando corresponda;
-- acción opcional.
+Cuando el usuario solicita reducción de movimiento:
 
-Puede reutilizar `Button` para su acción si ello reduce duplicación sin alterar comportamiento.
+- eliminar transiciones no esenciales;
+- eliminar transforms de presión;
+- conservar inmediatamente los estados visuales finales;
+- conservar foco, hover, selección, error y demás información necesaria.
 
-No crear sistemas de toast, snackbar, modal o notificaciones globales.
+Reduced motion no significa eliminar feedback funcional.
 
-## Muestra visual
+## Documentación
 
-Actualizar `UiFoundationDemo.astro` para que la muestra técnica consuma los componentes foundation reales en vez de duplicar sus estilos.
+Actualizar `DESIGN.md` únicamente para consolidar reglas reutilizables de motion.
 
-La muestra debe permitir inspeccionar visualmente, como mínimo:
+Debe quedar explícito:
 
-- Button primary;
-- Button secondary;
-- Button disabled;
-- Card;
-- TextInput normal;
-- TextInput con ayuda;
-- TextInput con error;
-- Feedback loading;
-- Feedback empty;
-- Feedback error.
+- motion breve y funcional;
+- rango temporal orientativo;
+- evitar `transition-all`;
+- movimiento reservado a cambios de estado/interacción;
+- ausencia de animación ambiental o decorativa;
+- reduced-motion obligatorio.
 
-Debe seguir disponible en:
+No convertir `DESIGN.md` en una especificación extensa de animación.
 
-- `/`;
-- `/en/`.
+## Scope técnico esperado
 
-Todo texto visible debe mantener paridad ES / EN mediante la infraestructura i18n existente.
+Revisar únicamente cuando sea necesario:
 
-La muestra sigue siendo técnica.
+- `src/components/Button.astro`;
+- `src/components/TextInput.astro`;
+- `src/components/AppShell.astro`;
+- `src/components/LanguageSwitcher.astro`;
+- `DESIGN.md`.
 
-No convertirla en Dashboard, landing ni pantalla ficticia de producto.
-
-## Componentes no requeridos
-
-No formalizar todavía componentes para:
-
-- badges;
-- tabs;
-- modal;
-- dialog;
-- dropdown;
-- tooltip;
-- toast;
-- table;
-- pagination;
-- sidebar;
-- breadcrumbs;
-- avatar;
-- chart;
-- accordion;
-- command palette;
-- date picker.
-
-Su existencia futura debe estar justificada por una necesidad real.
-
-## Diseño
-
-Los componentes deben respetar `DESIGN.md`.
-
-En particular:
-
-- jerarquía antes que decoración;
-- un solo acento de marca dominante;
-- `primary` no se usa como decoración general;
-- superficies antes que sombras;
-- bordes discretos;
-- radios pequeños y contenidos;
-- claridad antes que metáfora;
-- affordances convencionales;
-- sin estética RPG, gamer o ornamental.
-
-Actualizar `DESIGN.md` únicamente si resulta necesario documentar reglas reutilizables de componentes que no estén ya cubiertas.
-
-No duplicar documentación existente.
+No modificar `Card` o `FeedbackState` salvo contradicción demostrable.
 
 ## Scope excluido
 
-- nuevas rutas de producto;
-- Dashboard;
-- rutinas;
-- ejercicios;
-- entrenamientos;
-- progreso;
-- perfil;
-- settings;
-- autenticación;
-- datos ficticios de producto;
-- nuevas tablas;
-- nuevas migraciones;
-- cambios de paleta;
-- nuevos tokens cromáticos;
-- fuentes externas;
-- iconografía;
-- logo;
-- motion;
-- animaciones;
 - nuevas dependencias;
 - React;
-- client-side router;
+- librerías de motion;
+- View Transitions;
+- page transitions;
+- animaciones de entrada de páginas;
+- scroll animations;
+- parallax;
+- loaders animados;
+- skeleton animations;
+- modal transitions;
+- toast animations;
+- charts;
+- cambios de paleta;
+- cambios de tipografía;
+- cambios de spacing;
+- nuevas rutas;
+- funcionalidades de producto;
 - Production;
 - Cloudflare.
 
 ## Criterio de aceptación
 
-- existe `Button` reutilizable;
-- existe `Card` reutilizable;
-- existe `TextInput` reutilizable;
-- `FeedbackState` continúa funcionando;
-- navegación existente continúa funcionando;
-- la muestra técnica consume las primitives reales;
-- `/` y `/en/` mantienen paridad visual y funcional;
-- no se inventan funcionalidades de producto;
-- no se introducen nuevas dependencias;
-- no existe overflow horizontal a 360 CSS px;
-- la foundation funciona correctamente en desktop;
-- navegación por teclado y foco siguen siendo utilizables;
+- controles interactivos dejan de depender de `transition-none` como comportamiento general;
+- las transiciones son breves y limitadas a propiedades justificadas;
+- Button dispone de una microinteracción de presión discreta;
+- disabled no presenta motion interactivo;
+- TextInput conserva foco y error claros;
+- AppShell y LanguageSwitcher mantienen comportamiento actual;
+- `prefers-reduced-motion` elimina motion no esencial;
+- no se usa `transition-all`;
+- no se añaden dependencias;
+- no hay cambios de layout;
+- `/` y `/en/` siguen siendo funcionalmente equivalentes;
+- no aparece overflow horizontal;
 - `npm run check` finaliza con 0 errores;
 - `npm run build` finaliza correctamente;
 - `npm audit --omit=dev` mantiene 0 vulnerabilidades;
@@ -306,37 +229,37 @@ No duplicar documentación existente.
 
 ## Validación visual requerida
 
-Antes de aceptación final revisar como mínimo:
+Revisar como mínimo:
 
-- viewport móvil real de 360 CSS px;
-- desktop de 1440 CSS px;
-- `/`;
-- `/en/`;
-- estados normal, disabled y error visibles en la muestra.
+- Button primary;
+- Button secondary;
+- Button disabled;
+- TextInput;
+- LanguageSwitcher;
+- navegación del App Shell.
 
-La validación debe comprobar:
+Comprobar tanto:
 
-- jerarquía;
-- spacing;
-- legibilidad;
-- consistencia entre componentes;
-- ausencia de overflow;
-- que la interfaz sigue sintiéndose `Linear Calm`.
+- comportamiento normal;
+- `prefers-reduced-motion: reduce`.
+
+La validación visual debe confirmar que el movimiento se percibe como feedback y no como animación decorativa.
 
 ## Estado previo
 
 - FASE 4 — Fundación técnica: `ACCEPTED_LOCKED`.
 - FASE 5.1 — Identidad: `ACCEPTED_LOCKED`.
 - FASE 5.2 — Sistema visual: `ACCEPTED_LOCKED`.
+- FASE 5.3 — Componentes: `ACCEPTED_LOCKED`.
 
 ## Responsable principal
 
-Gemini implementa los componentes y la muestra técnica.
+Gemini implementa el motion autorizado.
 
-ChatGPT apoya en arquitectura de componentes, semántica, accesibilidad foundation y revisión de scope.
+ChatGPT revisa alcance, comportamiento y reduced-motion.
 
-Oskar realiza la aceptación visual y funcional.
+Oskar realiza la aceptación visual.
 
 ## Después de aceptar
 
-Siguiente candidato: FASE 5.4 — Motion.
+Siguiente candidato: FASE 5.5 — Accesibilidad.
