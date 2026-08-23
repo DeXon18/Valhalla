@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AppShell from '../components/AppShell.astro';
-import UiFoundationDemo from '../components/UiFoundationDemo.astro';
+import LandingContent from '../components/LandingContent.astro';
 import { getTranslations } from '../i18n/config';
 
 const locale = 'es';
@@ -9,7 +9,7 @@ const messages = getTranslations(locale);
 ---
 
 <BaseLayout locale={locale} title={messages.page.title}>
-	<AppShell locale={locale} messages={messages}>
-		<UiFoundationDemo messages={messages} />
+	<AppShell locale={locale} messages={messages} wide={true}>
+		<LandingContent messages={messages} />
 	</AppShell>
 </BaseLayout>

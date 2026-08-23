@@ -7,19 +7,24 @@ interface Props {
 	locale: 'es' | 'en';
 	messages: Translations;
 	homeIsCurrent?: boolean;
+	wide?: boolean;
 }
 
-const { locale, messages: t, homeIsCurrent = true } = Astro.props;
+const { locale, messages: t, homeIsCurrent = true, wide = false } = Astro.props;
 const homeUrl = getRelativeLocaleUrl(locale, '');
+
+const containerClass = wide
+	? 'max-w-7xl mx-auto space-y-8 sm:space-y-12 min-w-0 px-4 sm:px-6 lg:px-8'
+	: 'max-w-xl md:max-w-3xl lg:max-w-4xl mx-auto space-y-6 min-w-0';
 ---
 
-<div class="max-w-xl md:max-w-3xl lg:max-w-4xl mx-auto space-y-6 min-w-0">
+<div class={containerClass}>
 	<!-- Cabecera compartida del App Shell -->
 	<header class="flex items-center justify-between border-b border-border pb-4 gap-4">
 		<div class="flex items-center gap-4 sm:gap-6 min-w-0">
 			<a
 				href={homeUrl}
-				class="inline-flex items-center min-h-11 font-heading font-bold text-lg tracking-wider text-foreground hover:text-primary transition-colors duration-150 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded"
+				class="inline-flex items-center min-h-11 font-heading font-bold text-xl tracking-wider text-foreground hover:text-primary transition-colors duration-150 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary rounded"
 			>
 				Valhalla
 			</a>
@@ -42,7 +47,7 @@ const homeUrl = getRelativeLocaleUrl(locale, '');
 	</header>
 
 	<!-- Área principal de contenido -->
-	<main class="space-y-6 min-w-0">
+	<main class="min-w-0">
 		<slot />
 	</main>
 </div>
