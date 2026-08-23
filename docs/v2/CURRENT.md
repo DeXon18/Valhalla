@@ -1,6 +1,6 @@
 # CURRENT
 
-Estado: `AWAITING_OWNER_REVIEW`
+Estado: `ACCEPTED_LOCKED`
 
 ## Tarea autorizada
 
