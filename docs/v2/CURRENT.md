@@ -1,96 +1,184 @@
 # CURRENT
 
-Estado: `AWAITING_OWNER_REVIEW`
+Estado: `IN_PROGRESS`
 
 ## Tarea autorizada
 
-FASE 4.5 — Persistencia.
+FASE 4.6 — App Shell.
 
 ## Resultado observable
 
-Valhalla dispone de una foundation mínima y tipada para conectarse desde Astro/Node a PostgreSQL mediante Drizzle ORM y gestionar futuras evoluciones de schema mediante migraciones versionadas.
+Valhalla dispone de una estructura de aplicación compartida, responsive, localizada y accesible sobre la que puedan incorporarse posteriormente las pantallas funcionales del producto.
 
 ## Scope incluido
 
-- utilizar el PostgreSQL Development existente:
-  - base de datos: `valhalla_dev`;
-- utilizar Drizzle ORM con `node-postgres`;
-- verificar antes de instalar las versiones disponibles de:
-  - `drizzle-orm`;
-  - `drizzle-kit`;
-  - `pg`;
-  - `@types/pg`;
-- fijar versiones exactas en `package.json`;
-- crear configuración central de Drizzle;
-- crear conexión reutilizable a PostgreSQL;
-- leer `DATABASE_URL` únicamente desde entorno;
-- crear `src/db/schema.ts` como entrypoint central del schema;
-- preparar directorio y flujo versionado de migraciones;
-- validar conexión real mediante Drizzle;
-- validar el flujo de migraciones contra Development;
-- mantener TypeScript strict;
-- mantener secretos fuera de Git;
-- documentar únicamente nombres de variables de entorno cuando sea necesario.
+- crear un layout compartido para las páginas de aplicación;
+- crear un App Shell reutilizable;
+- incorporar:
+  - cabecera;
+  - identidad Valhalla mínima;
+  - área de navegación;
+  - área principal de contenido;
+- trasladar el selector ES / EN al shell compartido;
+- mantener navegación únicamente hacia rutas que realmente existan;
+- no inventar todavía secciones funcionales del producto;
+- conservar la UI técnica actual como contenido temporal dentro del shell;
+- mantener ES y EN funcionalmente equivalentes;
+- mantener rutas actuales:
+  - `/`
+  - `/en/`;
+- crear estados reutilizables:
+  - loading;
+  - empty;
+  - error;
+- los estados deben ser accesibles y no depender de JavaScript;
+- crear endpoint:
+  - `/api/health`;
+- health debe comprobar:
+  - aplicación operativa;
+  - conectividad real con PostgreSQL;
+- respuesta healthy:
+  - HTTP 200;
+- fallo de PostgreSQL:
+  - HTTP 503;
+- no incluir credenciales ni detalles internos sensibles en la respuesta;
+- crear una experiencia 404 propia;
+- localizar 404 cuando sea razonablemente posible mediante la infraestructura i18n existente;
+- ofrecer enlace de retorno a una ruta válida;
+- preservar Linear Calm;
+- preservar responsive foundation;
+- preservar persistencia e i18n ya aceptadas;
+- mantener `astro check` y build limpios.
 
-## Principio de schema mínimo
+## Arquitectura esperada
 
-Esta fase NO autoriza diseñar por anticipado el modelo completo del producto.
+La implementación debe tender a una estructura equivalente a:
 
-No crear tablas ficticias únicamente para demostrar que Drizzle funciona.
+- `src/layouts/BaseLayout.astro`
+- `src/components/AppShell.astro`
+- `src/components/LanguageSwitcher.astro`
+- componente reutilizable para estados de feedback;
+- `src/pages/api/health.ts`
+- `src/pages/404.astro`
 
-En particular, no definir todavía:
+Los nombres exactos pueden variar si existe una alternativa claramente más simple.
 
-- usuarios/cuentas;
-- sesiones de autenticación;
-- perfiles;
-- ejercicios;
-- rutinas;
-- entrenamientos;
-- métricas corporales.
+## Navegación
 
-Esas entidades se incorporarán cuando su fase funcional las necesite.
+No crear enlaces a funcionalidades todavía inexistentes.
 
-Si la herramienta exige una tabla real para poder validar correctamente el flujo de migraciones, detenerse y comunicarlo antes de inventar una entidad.
+En esta fase basta con una navegación mínima y real.
+
+No crear por anticipado:
+
+- Dashboard;
+- Rutinas;
+- Entrenamientos;
+- Ejercicios;
+- Progreso;
+- Perfil;
+- Ajustes.
+
+Esos destinos aparecerán cuando sus fases funcionales estén autorizadas.
+
+## Health endpoint
+
+`/api/health` debe realizar una consulta mínima a PostgreSQL.
+
+La respuesta no debe exponer:
+
+- `DATABASE_URL`;
+- host;
+- puerto;
+- usuario;
+- versión exacta de PostgreSQL;
+- stack traces;
+- mensajes internos del driver.
+
+Formato mínimo healthy equivalente a:
+
+```json
+{
+  "status": "ok",
+  "database": "ok"
+}
+```
+
+En fallo de base de datos, formato equivalente a:
+
+```json
+{
+  "status": "degraded",
+  "database": "unavailable"
+}
+```
+
+## Estados
+
+Loading, empty y error deben ser componentes foundation reutilizables, no pantallas funcionales inventadas.
+
+Deben contemplar como mínimo:
+
+- semántica accesible adecuada;
+- título;
+- descripción opcional;
+- espacio para acción cuando proceda;
+- integración con tokens existentes.
+
+No introducir animaciones complejas ni nuevas dependencias.
+
+## 404
+
+Debe:
+
+- utilizar el diseño del App Shell cuando sea viable;
+- presentar mensaje comprensible;
+- ofrecer regreso a `/` o `/en/` según locale;
+- no mostrar detalles internos de routing.
 
 ## Scope excluido
 
+- autenticación;
 - Better Auth;
-- tablas de autenticación;
-- modelado completo de dominio;
-- seed de datos;
-- importación del dataset de ejercicios;
+- Dashboard funcional;
+- navegación de producto definitiva;
+- sidebar funcional de producto;
 - CRUD;
-- endpoints de producto;
-- App Shell;
-- health endpoint;
+- ejercicios;
+- rutinas;
+- entrenamientos;
+- métricas;
+- perfil;
+- settings;
+- datos ficticios de producto;
+- loading derivado de navegación SPA;
+- client-side router;
+- nuevas dependencias;
+- nuevas tablas;
+- nuevas migraciones de dominio;
 - Production;
-- `valhalla_prod`;
-- backups de Production;
-- Docker;
-- PostgreSQL MCP;
-- cambios UI;
-- cambios i18n.
-
-## Seguridad
-
-- ninguna contraseña o URL con credenciales entra en Git;
-- no imprimir el valor de `DATABASE_URL`;
-- no modificar `valhalla_prod`;
-- no ejecutar operaciones destructivas sobre bases no verificadas;
-- antes de aplicar una migración comprobar explícitamente que el destino es `valhalla_dev`.
+- systemd;
+- reverse proxy;
+- cambios de paleta;
+- rediseño de Linear Calm.
 
 ## Criterio de aceptación
 
-- PostgreSQL Development responde;
-- Drizzle conecta realmente a `valhalla_dev`;
-- una consulta mínima mediante Drizzle finaliza correctamente;
-- existe un único entrypoint de conexión reutilizable;
-- existe un entrypoint central de schema;
-- Drizzle Kit queda configurado para PostgreSQL;
-- el flujo de migraciones está preparado y se puede ejecutar de forma reproducible;
-- no se han creado tablas de dominio especulativas;
-- ninguna credencial aparece en el repositorio;
+- `/` y `/en/` utilizan el mismo layout y App Shell;
+- no existe duplicación significativa de estructura entre idiomas;
+- selector ES / EN funciona desde el shell;
+- navegación solo apunta a destinos existentes;
+- loading, empty y error existen como foundation reutilizable;
+- `/api/health` devuelve 200 con PostgreSQL operativo;
+- `/api/health` devuelve 503 cuando PostgreSQL no está disponible;
+- health no filtra información sensible;
+- existe 404 personalizada;
+- 404 ofrece una vía válida de regreso;
+- layout funciona en móvil y desktop;
+- no hay overflow horizontal;
+- `npm run check` finaliza con 0 errores;
 - `npm run build` finaliza correctamente;
+- `npm audit --omit=dev` mantiene 0 vulnerabilidades;
 - `git diff --check` está limpio.
 
 ## Estado previo
@@ -99,15 +187,16 @@ Si la herramienta exige una tabla real para poder validar correctamente el flujo
 - FASE 4.2 — UI base: `ACCEPTED_LOCKED`.
 - FASE 4.3 — Responsive Foundation: `ACCEPTED_LOCKED`.
 - FASE 4.4 — Internacionalización: `ACCEPTED_LOCKED`.
+- FASE 4.5 — Persistencia: `ACCEPTED_LOCKED`.
 
 ## Responsable principal
 
 Gemini implementa CURRENT.
 
-ChatGPT apoya en PostgreSQL, Drizzle, arquitectura de persistencia y revisión de migraciones.
+ChatGPT apoya en arquitectura del shell, health endpoint, accesibilidad y revisión técnica.
 
-Oskar acepta el resultado funcional.
+Oskar acepta el resultado funcional y visual.
 
 ## Después de aceptar
 
-Siguiente candidato: FASE 4.6 — App Shell.
+FASE 4 — Fundación técnica queda completa.
