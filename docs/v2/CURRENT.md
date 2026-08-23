@@ -1,101 +1,145 @@
 # CURRENT
 
-Estado: `ACCEPTED_LOCKED`
+Estado: `AWAITING_OWNER_REVIEW`
 
 ## Tarea autorizada
 
-PUENTE INFRA — Servicio persistente de Development.
+PUENTE INFRA — Cloudflare Tunnel para Development.
 
 ## Resultado observable
 
-Valhalla Development funciona como servicio `systemd` persistente bajo el usuario `gemini`, ejecutando el artefacto SSR compilado en `127.0.0.1:4321`, cargando la configuración de PostgreSQL desde el archivo de secretos existente y recuperándose automáticamente ante reinicios o fallos del proceso.
+Valhalla Development queda accesible externamente mediante:
+
+`https://dev-valha.dxpro.es`
+
+El tráfico público entra por Cloudflare Tunnel y llega al servicio local existente:
+
+`http://127.0.0.1:4321`
+
+El origen no se expone directamente a Internet ni cambia su bind local.
 
 ## Baseline preservada
 
 Se conserva:
 
 - FASE 5 completa: `ACCEPTED_LOCKED`;
-- rama de integración `develop`;
-- Node.js instalado en `/usr/local/bin/node`;
-- proyecto en `/opt/web-projects/Valhalla/development`;
-- secretos fuera del repositorio;
-- PostgreSQL actual;
-- Astro SSR con `@astrojs/node`;
+- servicio persistente de Development: `ACCEPTED_LOCKED`;
+- `valhalla-dev.service`;
 - Development en `127.0.0.1:4321`;
+- PostgreSQL y secretos actuales;
+- rama de integración `develop`;
 - Production aplazada.
 
-No modificar funcionalidad, diseño, dependencias ni código de producto salvo que una incompatibilidad real del runtime lo haga imprescindible.
+No modificar código de producto, diseño, base de datos ni dependencias npm.
 
-## Servicio
+## Cloudflared
 
-Crear un servicio:
+Instalar `cloudflared` desde el repositorio estable oficial de Cloudflare para Debian.
 
-`valhalla-dev.service`
+No utilizar builds nightly.
 
-Debe:
+El conector debe:
 
-- ejecutarse como usuario `gemini`;
-- usar `/opt/web-projects/Valhalla/development` como directorio de trabajo;
-- cargar variables desde `/opt/web-projects/Valhalla/.secrets/postgres-dev.env`;
-- ejecutar `/usr/local/bin/node dist/server/entry.mjs`;
-- fijar `HOST=127.0.0.1`;
-- fijar `PORT=4321`;
-- arrancar automáticamente con el sistema;
-- reiniciarse ante fallo del proceso;
-- no exponer secretos en el unit file, logs ni repositorio.
+- ejecutarse como servicio persistente;
+- arrancar automáticamente;
+- recuperarse ante fallo;
+- conectar exclusivamente con el Tunnel de Development proporcionado por el owner;
+- dirigir el hostname público a `http://127.0.0.1:4321`.
 
-## Build
+## Tunnel token
 
-El servicio ejecuta el artefacto ya compilado.
+El Tunnel token es secreto.
 
-No añadir un build automático dentro de `ExecStart`.
+Nunca:
 
-Los despliegues posteriores deberán seguir explícitamente la secuencia:
+- incluirlo en Git;
+- incluirlo en `CURRENT.md`;
+- incluirlo en documentación;
+- pegarlo en chat;
+- imprimirlo con `echo`, `cat` o logs;
+- escribirlo literalmente en un comando que quede en el historial del shell.
 
-1. actualizar código;
-2. instalar dependencias cuando corresponda;
-3. ejecutar build;
-4. reiniciar el servicio;
-5. validar health.
+La introducción del token deberá hacerse mediante entrada oculta en terminal.
 
-No automatizar todavía ese flujo.
+Después de instalar el servicio se debe verificar que:
+
+- el token se almacena fuera del repositorio;
+- sus permisos son restrictivos;
+- el unit de systemd no contiene el valor del token;
+- `ExecStart` utiliza un token file o mecanismo equivalente seguro.
+
+Si la versión instalada intenta persistir el token literalmente en el unit de systemd, detener la tarea y no continuar.
+
+## Red y exposición
+
+Mantener:
+
+`valhalla-dev.service -> 127.0.0.1:4321`
+
+No cambiar a `0.0.0.0`.
+
+No abrir puertos HTTP/HTTPS entrantes en el LXC para resolver el túnel.
+
+El conector Cloudflare establece la conexión saliente necesaria.
+
+## Hostname
+
+Hostname objetivo:
+
+`dev-valha.dxpro.es`
+
+El hostname deberá estar asociado únicamente al Tunnel de Development.
+
+No configurar todavía:
+
+- `valha.dxpro.es`;
+- Production;
+- otros subdominios.
 
 ## Validación
 
 Comprobar como mínimo:
 
-- `systemctl enable` correcto;
-- `systemctl start` correcto;
-- estado `active (running)`;
-- listener exclusivamente en `127.0.0.1:4321`;
-- `/` devuelve HTTP 200;
+- `cloudflared` instalado desde fuente oficial;
+- versión instalada identificada;
+- servicio habilitado y activo;
+- Tunnel conectado;
+- recuperación del servicio tras reinicio;
+- `valhalla-dev.service` continúa activo;
+- Valhalla continúa escuchando solo en `127.0.0.1:4321`;
+- `https://dev-valha.dxpro.es/` devuelve HTTP 200;
 - `/en/` devuelve HTTP 200;
 - `/api/health` devuelve HTTP 200 con aplicación y base de datos saludables;
 - ruta inexistente devuelve HTTP 404;
-- reinicio manual del servicio correcto;
-- recuperación automática tras terminar el proceso principal;
-- logs sin secretos;
-- working tree Git limpio respecto a cambios de infraestructura del host.
+- certificado HTTPS válido;
+- no hay secretos visibles en Git, unit files ni logs revisados;
+- working tree limpio salvo documentación o infraestructura autorizada.
+
+## Reproducibilidad
+
+Versionar únicamente configuración o documentación de infraestructura que no contenga secretos.
+
+No versionar el Tunnel token ni archivos que lo contengan.
 
 ## Fuera de alcance
 
 No realizar en esta tarea:
 
-- instalación de `cloudflared`;
-- configuración del Cloudflare Tunnel;
-- DNS;
-- HTTPS público;
-- `dev-valha.dxpro.es`;
 - Production;
+- `valha.dxpro.es`;
+- Cloudflare Access;
+- WAF personalizado;
+- reglas de caché;
+- Workers;
 - reverse proxy adicional;
 - Docker;
 - CI/CD;
-- cambios de base de datos;
-- cambios de producto;
+- cambios de aplicación;
+- cambios de PostgreSQL;
 - nuevas dependencias npm.
 
-Cloudflare será una tarea separada después de aceptar este servicio.
+Estas capacidades requieren tareas separadas si llegan a ser necesarias.
 
 ## Criterio de cierre
 
-La tarea pasa a `AWAITING_OWNER_REVIEW` únicamente cuando el servicio persista correctamente, sobreviva a reinicios/fallos del proceso y todas las comprobaciones locales definidas hayan pasado.
+La tarea pasa a `AWAITING_OWNER_REVIEW` únicamente cuando Development sea accesible de forma estable mediante `https://dev-valha.dxpro.es`, el origen siga siendo privado y las comprobaciones locales, externas y de secretos hayan pasado.
