@@ -1,6 +1,6 @@
 # CURRENT
 
-Estado: `IN_PROGRESS`
+Estado: `AWAITING_OWNER_REVIEW`
 
 ## Tarea autorizada
 
@@ -133,8 +133,23 @@ Debe:
 
 - utilizar el diseño del App Shell cuando sea viable;
 - presentar mensaje comprensible;
-- ofrecer regreso a `/` o `/en/` según locale;
+- ofrecer regreso a `/` o `/en/` según locale cuando el locale llegue a la página 404;
 - no mostrar detalles internos de routing.
+
+### Comportamiento i18n aceptado para rutas inexistentes
+
+Se preserva la decisión `ACCEPTED_LOCKED` de FASE 4.4:
+
+- fallback `EN -> ES`;
+- `fallbackType: redirect`.
+
+Como consecuencia, una ruta inexistente bajo `/en/...` es redirigida por Astro a su equivalente sin prefijo antes de resolverse la 404, por lo que termina mostrando la 404 española.
+
+Este comportamiento se acepta en la foundation actual.
+
+No se modifica el routing, no se añade middleware y no se crea un catch-all únicamente para obtener una 404 inglesa.
+
+Una 404 estrictamente localizada por locale queda diferida hasta que exista una necesidad funcional que justifique cambiar la estrategia de routing.
 
 ## Scope excluido
 
