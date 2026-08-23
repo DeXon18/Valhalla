@@ -18,7 +18,7 @@ const enUrl = getRelativeLocaleUrl('en', '');
 		<a
 			href={esUrl}
 			class={
-				"px-2.5 py-1 rounded font-medium transition-none " +
+				"px-2.5 py-1 rounded font-medium transition-colors duration-150 motion-reduce:transition-none " +
 				(locale === 'es'
 					? 'bg-primary text-primary-foreground'
 					: 'text-muted hover:text-foreground')
@@ -30,7 +30,7 @@ const enUrl = getRelativeLocaleUrl('en', '');
 		<a
 			href={enUrl}
 			class={
-				"px-2.5 py-1 rounded font-medium transition-none " +
+				"px-2.5 py-1 rounded font-medium transition-colors duration-150 motion-reduce:transition-none " +
 				(locale === 'en'
 					? 'bg-primary text-primary-foreground'
 					: 'text-muted hover:text-foreground')

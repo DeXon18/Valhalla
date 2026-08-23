@@ -164,7 +164,15 @@ Valhalla no es:
 
 ## Motion
 
-Breve y funcional. Debe respetar `reduced-motion`.
+Principios de movimiento e interacción:
+
+- Motion breve, directo y funcional, destinado a dar feedback inmediato a las acciones del usuario.
+- Duración orientativa: 120–180ms (150ms como baseline general).
+- Transiciones limitadas estrictamente a propiedades justificadas (`color`, `background-color`, `border-color`, `transform`).
+- Prohibido el uso de `transition-all`.
+- Microinteracciones de escala (`transform: scale(...)`) reservadas únicamente como feedback táctil de presión en controles interactivos habilitados.
+- Sin animación ambiental, decorativa, continua o innecesaria.
+- `prefers-reduced-motion: reduce` obligatorio en todo motion no esencial: elimina transiciones y transformaciones espaciales, garantizando que el cambio de estado sea inmediato y accesible sin perder feedback funcional.
 
 ## Accesibilidad
 
