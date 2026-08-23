@@ -1,0 +1,154 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import type { Translations } from '../i18n/es';
+
+interface Props {
+	locale: 'es' | 'en';
+	messages: Translations;
+}
+
+const { locale, messages: t } = Astro.props;
+
+const esUrl = getRelativeLocaleUrl('es', '');
+const enUrl = getRelativeLocaleUrl('en', '');
+---
+
+<main class="max-w-xl md:max-w-3xl lg:max-w-4xl mx-auto space-y-6 min-w-0">
+	<!-- Selector de idioma -->
+	<nav aria-label={t.language.selectorLabel} class="flex justify-end">
+		<div class="flex items-center gap-1 p-0.5 rounded border border-border bg-surface text-xs">
+			<a
+				href={esUrl}
+				class={
+					"px-2.5 py-1 rounded font-medium transition-none " +
+					(locale === 'es'
+						? 'bg-primary text-primary-foreground'
+						: 'text-muted hover:text-foreground')
+				}
+				aria-current={locale === 'es' ? 'page' : undefined}
+			>
+				ES
+			</a>
+			<a
+				href={enUrl}
+				class={
+					"px-2.5 py-1 rounded font-medium transition-none " +
+					(locale === 'en'
+						? 'bg-primary text-primary-foreground'
+						: 'text-muted hover:text-foreground')
+				}
+				aria-current={locale === 'en' ? 'page' : undefined}
+			>
+				EN
+			</a>
+		</div>
+	</nav>
+
+	<!-- Título y texto principal/secundario -->
+	<header class="space-y-2">
+		<h1 class="font-heading font-bold text-2xl tracking-wide text-foreground">
+			{t.page.heading}
+		</h1>
+		<p class="text-muted text-sm leading-relaxed">
+			{t.page.description}
+		</p>
+	</header>
+
+	<!-- Contenedor adaptativo para secciones técnicas en tablet y desktop -->
+	<div class="grid grid-cols-1 md:grid-cols-2 gap-6 min-w-0">
+		<!-- Superficies y bordes -->
+		<section class="bg-surface border border-border rounded p-4 space-y-3 min-w-0">
+			<h2 class="text-xs uppercase tracking-wider text-muted font-semibold">
+				{t.sections.surfaces}
+			</h2>
+			<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+				<div class="bg-background p-3 rounded border border-border">
+					<span class="text-muted">{t.surfaces.background}</span>
+				</div>
+				<div class="bg-surface p-3 rounded border border-border">
+					<span class="text-foreground">{t.surfaces.surface}</span>
+				</div>
+				<div class="bg-raised p-3 rounded border border-border sm:col-span-2">
+					<span class="text-foreground">{t.surfaces.raised}</span>
+				</div>
+			</div>
+		</section>
+
+		<!-- Spacing -->
+		<section class="bg-surface border border-border rounded p-4 space-y-3 min-w-0">
+			<h2 class="text-xs uppercase tracking-wider text-muted font-semibold">
+				{t.sections.spacing}
+			</h2>
+			<div class="space-y-2 text-xs text-muted">
+				<div class="flex items-center gap-2 min-w-0">
+					<span class="w-12 shrink-0">p-1:</span>
+					<div class="bg-primary-subtle border border-primary p-1 text-primary">1 (4px)</div>
+				</div>
+				<div class="flex items-center gap-2 min-w-0">
+					<span class="w-12 shrink-0">p-2:</span>
+					<div class="bg-primary-subtle border border-primary p-2 text-primary">2 (8px)</div>
+				</div>
+				<div class="flex items-center gap-2 min-w-0">
+					<span class="w-12 shrink-0">p-3:</span>
+					<div class="bg-primary-subtle border border-primary p-3 text-primary">3 (12px)</div>
+				</div>
+				<div class="flex items-center gap-2 min-w-0">
+					<span class="w-12 shrink-0">p-4:</span>
+					<div class="bg-primary-subtle border border-primary p-4 text-primary">4 (16px)</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- Controles, Estados y Badges -->
+	<section class="bg-surface border border-border rounded p-4 space-y-3 min-w-0">
+		<h2 class="text-xs uppercase tracking-wider text-muted font-semibold">
+			{t.sections.controls}
+		</h2>
+
+		<!-- Botones adaptativos mobile-first -->
+		<div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3">
+			<button
+				type="button"
+				class="bg-primary text-primary-foreground font-semibold px-4 py-2 rounded text-sm text-center hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary cursor-pointer w-full sm:w-auto"
+			>
+				{t.actions.primary}
+			</button>
+
+			<button
+				type="button"
+				class="bg-raised text-foreground font-semibold px-4 py-2 rounded text-sm text-center border border-border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary cursor-pointer w-full sm:w-auto"
+			>
+				{t.actions.secondary}
+			</button>
+
+			<button
+				type="button"
+				disabled
+				class="bg-primary text-primary-foreground font-semibold px-4 py-2 rounded text-sm text-center opacity-40 cursor-not-allowed w-full sm:w-auto"
+			>
+				{t.actions.disabled}
+			</button>
+		</div>
+
+		<!-- Badges semánticos flexibles -->
+		<div class="flex flex-wrap items-center gap-2 pt-2">
+			<span class="text-xs px-2 py-0.5 rounded border border-success text-success font-medium">
+				{t.states.success}
+			</span>
+			<span class="text-xs px-2 py-0.5 rounded border border-warning text-warning font-medium">
+				{t.states.warning}
+			</span>
+			<span class="text-xs px-2 py-0.5 rounded border border-danger text-danger font-medium">
+				{t.states.danger}
+			</span>
+		</div>
+
+		<!-- Elemento Selected -->
+		<div class="pt-2">
+			<div class="p-3 rounded border border-primary bg-primary-subtle text-xs text-foreground font-medium">
+				{t.states.selected}
+			</div>
+		</div>
+	</section>
+</main>
