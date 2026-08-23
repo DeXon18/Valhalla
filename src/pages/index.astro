@@ -1,14 +1,120 @@
 ---
+import '../styles/global.css';
 ---
 
 <html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Valhalla</title>
-  </head>
-  <body>
-    <h1>Valhalla</h1>
-  </body>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Valhalla — UI Base (Muestra Técnica)</title>
+	</head>
+	<body class="bg-background text-foreground font-body p-6">
+		<main class="max-w-xl mx-auto space-y-6">
+			<!-- Título y texto principal/secundario -->
+			<header class="space-y-2">
+				<h1 class="font-heading font-bold text-2xl tracking-wide text-foreground">
+					Muestra Técnica UI Base
+				</h1>
+				<p class="text-muted text-sm leading-relaxed">
+					Comprobación técnica de tokens semánticos: superficies, bordes, tipografía, espaciado y estados visuales (FASE 4.2).
+				</p>
+			</header>
+
+			<!-- Superficies y bordes -->
+			<section class="bg-surface border border-border rounded p-4 space-y-3">
+				<h2 class="text-xs uppercase tracking-wider text-muted font-semibold">
+					Superficies y Bordes
+				</h2>
+				<div class="grid grid-cols-2 gap-2 text-xs">
+					<div class="bg-background p-3 rounded border border-border">
+						<span class="text-muted">Background</span>
+					</div>
+					<div class="bg-surface p-3 rounded border border-border">
+						<span class="text-foreground">Surface</span>
+					</div>
+					<div class="bg-raised p-3 rounded border border-border col-span-2">
+						<span class="text-foreground">Raised Surface</span>
+					</div>
+				</div>
+			</section>
+
+			<!-- Spacing -->
+			<section class="bg-surface border border-border rounded p-4 space-y-3">
+				<h2 class="text-xs uppercase tracking-wider text-muted font-semibold">
+					Escala de Spacing
+				</h2>
+				<div class="space-y-2 text-xs text-muted">
+					<div class="flex items-center gap-2">
+						<span class="w-12">p-1:</span>
+						<div class="bg-primary-subtle border border-primary p-1 text-primary">1 (4px)</div>
+					</div>
+					<div class="flex items-center gap-2">
+						<span class="w-12">p-2:</span>
+						<div class="bg-primary-subtle border border-primary p-2 text-primary">2 (8px)</div>
+					</div>
+					<div class="flex items-center gap-2">
+						<span class="w-12">p-3:</span>
+						<div class="bg-primary-subtle border border-primary p-3 text-primary">3 (12px)</div>
+					</div>
+					<div class="flex items-center gap-2">
+						<span class="w-12">p-4:</span>
+						<div class="bg-primary-subtle border border-primary p-4 text-primary">4 (16px)</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Controles, Estados y Badges -->
+			<section class="bg-surface border border-border rounded p-4 space-y-3">
+				<h2 class="text-xs uppercase tracking-wider text-muted font-semibold">
+					Controles, Estados y Badges
+				</h2>
+
+				<!-- Botones -->
+				<div class="flex flex-wrap items-center gap-3">
+					<button
+						type="button"
+						class="bg-primary text-primary-foreground font-semibold px-4 py-2 rounded text-sm hover:bg-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary cursor-pointer"
+					>
+						Primary
+					</button>
+
+					<button
+						type="button"
+						class="bg-raised text-foreground font-semibold px-4 py-2 rounded text-sm border border-border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary cursor-pointer"
+					>
+						Secondary
+					</button>
+
+					<button
+						type="button"
+						disabled
+						class="bg-primary text-primary-foreground font-semibold px-4 py-2 rounded text-sm opacity-40 cursor-not-allowed"
+					>
+						Disabled
+					</button>
+				</div>
+
+				<!-- Badges semánticos -->
+				<div class="flex items-center gap-2 pt-2">
+					<span class="text-xs px-2 py-0.5 rounded border border-success text-success font-medium">
+						Success
+					</span>
+					<span class="text-xs px-2 py-0.5 rounded border border-warning text-warning font-medium">
+						Warning
+					</span>
+					<span class="text-xs px-2 py-0.5 rounded border border-danger text-danger font-medium">
+						Danger
+					</span>
+				</div>
+
+				<!-- Elemento Selected -->
+				<div class="pt-2">
+					<div class="p-3 rounded border border-primary bg-primary-subtle text-xs text-foreground font-medium">
+						Elemento con estado Selected
+					</div>
+				</div>
+			</section>
+		</main>
+	</body>
 </html>

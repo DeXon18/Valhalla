@@ -1,0 +1,17 @@
+:root,
+[data-theme="linear-calm"] {
+  --theme-background: oklch(0.12 0.005 250);
+  --theme-surface: oklch(0.15 0.008 250);
+  --theme-raised: oklch(0.18 0.010 250);
+  --theme-border: oklch(0.24 0.010 250);
+  --theme-border-subtle: oklch(0.19 0.008 250);
+  --theme-foreground: oklch(0.95 0.005 250);
+  --theme-muted: oklch(0.62 0.010 250);
+  --theme-primary: oklch(0.62 0.12 270);
+  --theme-primary-hover: oklch(0.68 0.11 270);
+  --theme-primary-foreground: oklch(0.12 0.005 250);
+  --theme-primary-subtle: oklch(0.20 0.03 270);
+  --theme-success: oklch(0.70 0.14 150);
+  --theme-warning: oklch(0.75 0.14 85);
+  --theme-danger: oklch(0.65 0.18 25);
+}
