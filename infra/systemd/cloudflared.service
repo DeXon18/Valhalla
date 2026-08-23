@@ -1,0 +1,15 @@
+[Unit]
+Description=Cloudflare Tunnel - Valhalla Development
+Wants=network-online.target
+After=network-online.target valhalla-dev.service
+
+[Service]
+Type=simple
+User=cloudflared
+Group=cloudflared
+ExecStart=/usr/local/bin/cloudflared tunnel run --token-file /etc/cloudflared/token
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
