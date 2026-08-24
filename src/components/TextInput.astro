@@ -13,6 +13,7 @@ interface Props {
 	label: string;
 	type?: InputType;
 	placeholder?: string;
+	autocomplete?: string;
 	value?: string;
 	required?: boolean;
 	disabled?: boolean;
@@ -27,6 +28,7 @@ const {
 	label,
 	type = 'text',
 	placeholder,
+	autocomplete,
 	value,
 	required = false,
 	disabled = false,
@@ -56,6 +58,7 @@ const describedBy = [errorId, helpId].filter(Boolean).join(' ') || undefined;
 		type={type}
 		value={value}
 		placeholder={placeholder}
+		autocomplete={autocomplete}
 		required={required}
 		disabled={disabled}
 		aria-invalid={hasError ? 'true' : undefined}

@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AppShell from '../../components/AppShell.astro';
+import LoginForm from '../../components/LoginForm.astro';
+import { getTranslations } from '../../i18n/config';
+
+const locale = 'en';
+const messages = getTranslations(locale);
+---
+
+<BaseLayout locale={locale} title={messages.login.pageTitle}>
+        <AppShell
+                locale={locale}
+                messages={messages}
+                homeIsCurrent={false}
+                localePath="login"
+        >
+                <LoginForm messages={messages} />
+        </AppShell>
+</BaseLayout>

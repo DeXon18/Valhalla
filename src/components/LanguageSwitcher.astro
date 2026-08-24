@@ -5,12 +5,13 @@ import type { Translations } from '../i18n/es';
 interface Props {
 	locale: 'es' | 'en';
 	messages: Translations;
+	path?: string;
 }
 
-const { locale, messages: t } = Astro.props;
+const { locale, messages: t, path = '' } = Astro.props;
 
-const esUrl = getRelativeLocaleUrl('es', '');
-const enUrl = getRelativeLocaleUrl('en', '');
+const esUrl = getRelativeLocaleUrl('es', path);
+const enUrl = getRelativeLocaleUrl('en', path);
 ---
 
 <nav aria-label={t.language.selectorLabel} class="flex items-center shrink-0">
