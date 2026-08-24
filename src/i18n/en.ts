@@ -21,6 +21,19 @@ export const en: Translations = {
     esLabel: 'Español',
     enLabel: 'English',
   },
+  login: {
+    pageTitle: 'Valhalla — Sign in',
+    heading: 'Sign in',
+    description: 'Access Valhalla with your email address and password.',
+    emailLabel: 'Email',
+    emailPlaceholder: 'you@example.com',
+    passwordLabel: 'Password',
+    submit: 'Sign in',
+    submitting: 'Signing in…',
+    invalidCredentials: 'Unable to sign in. Check your credentials and try again.',
+    unexpectedError: 'Unable to complete sign in. Please try again.',
+    success: 'Signed in successfully.',
+  },
   feedback: {
     loading: {
       title: 'Loading content',

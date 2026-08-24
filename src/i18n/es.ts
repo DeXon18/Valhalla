@@ -19,6 +19,19 @@ export const es = {
     esLabel: 'Español',
     enLabel: 'English',
   },
+  login: {
+    pageTitle: 'Valhalla — Iniciar sesión',
+    heading: 'Iniciar sesión',
+    description: 'Accede a Valhalla con tu correo electrónico y contraseña.',
+    emailLabel: 'Correo electrónico',
+    emailPlaceholder: 'tu@correo.com',
+    passwordLabel: 'Contraseña',
+    submit: 'Iniciar sesión',
+    submitting: 'Iniciando sesión…',
+    invalidCredentials: 'No se pudo iniciar sesión. Comprueba tus credenciales e inténtalo de nuevo.',
+    unexpectedError: 'No se pudo completar el inicio de sesión. Inténtalo de nuevo.',
+    success: 'Sesión iniciada correctamente.',
+  },
   feedback: {
     loading: {
       title: 'Cargando contenido',

@@ -1,0 +1,186 @@
+---
+import Button from './Button.astro';
+import TextInput from './TextInput.astro';
+import type { Translations } from '../i18n/es';
+
+interface Props {
+        messages: Translations;
+}
+
+const { messages: t } = Astro.props;
+---
+
+<section class="max-w-md mx-auto py-6 sm:py-10">
+        <div class="rounded border border-border bg-surface p-5 sm:p-7 space-y-6">
+                <header class="space-y-2">
+                        <h1 class="font-heading font-bold text-2xl sm:text-3xl tracking-tight text-foreground">
+                                {t.login.heading}
+                        </h1>
+
+                        <p class="text-sm leading-relaxed text-muted">
+                                {t.login.description}
+                        </p>
+                </header>
+
+                <form
+                        data-login-form
+                        data-error-message={t.login.invalidCredentials}
+                        data-unexpected-message={t.login.unexpectedError}
+                        data-success-message={t.login.success}
+                        data-submitting-label={t.login.submitting}
+                        class="space-y-5"
+                >
+                        <TextInput
+                                id="login-email"
+                                name="email"
+                                type="email"
+                                autocomplete="email"
+                                label={t.login.emailLabel}
+                                placeholder={t.login.emailPlaceholder}
+                                required
+                        />
+
+                        <TextInput
+                                id="login-password"
+                                name="password"
+                                type="password"
+                                autocomplete="current-password"
+                                label={t.login.passwordLabel}
+                                required
+                        />
+
+                        <div
+                                data-login-error
+                                class="hidden rounded border border-danger bg-surface px-3 py-2 text-sm text-danger"
+                                role="alert"
+                        ></div>
+
+                        <div
+                                data-login-success
+                                class="hidden rounded border border-success bg-surface px-3 py-2 text-sm text-success"
+                                role="status"
+                                aria-live="polite"
+                        ></div>
+
+                        <Button
+                                variant="primary"
+                                type="submit"
+                                class="w-full"
+                        >
+                                {t.login.submit}
+                        </Button>
+                </form>
+        </div>
+</section>
+
+<script>
+        import { authClient } from '../auth-client';
+
+        const form = document.querySelector<HTMLFormElement>('[data-login-form]');
+
+        if (form) {
+                const errorState =
+                        form.querySelector<HTMLElement>('[data-login-error]');
+                const successState =
+                        form.querySelector<HTMLElement>('[data-login-success]');
+                const submitButton =
+                        form.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+                const defaultSubmitLabel = submitButton?.textContent?.trim() ?? '';
+
+                const hideFeedback = () => {
+                        if (errorState) {
+                                errorState.hidden = true;
+                                errorState.classList.add('hidden');
+                                errorState.textContent = '';
+                        }
+
+                        if (successState) {
+                                successState.hidden = true;
+                                successState.classList.add('hidden');
+                                successState.textContent = '';
+                        }
+                };
+
+                const showError = (message: string) => {
+                        if (!errorState) return;
+
+                        errorState.textContent = message;
+                        errorState.hidden = false;
+                        errorState.classList.remove('hidden');
+                };
+
+                const showSuccess = (message: string) => {
+                        if (!successState) return;
+
+                        successState.textContent = message;
+                        successState.hidden = false;
+                        successState.classList.remove('hidden');
+                };
+
+                form.addEventListener('submit', async (event) => {
+                        event.preventDefault();
+                        hideFeedback();
+
+                        const formData = new FormData(form);
+                        const email = formData.get('email');
+                        const password = formData.get('password');
+
+                        if (
+                                typeof email !== 'string' ||
+                                typeof password !== 'string' ||
+                                !email ||
+                                !password
+                        ) {
+                                showError(
+                                        form.dataset.errorMessage ??
+                                                'Unable to sign in.',
+                                );
+                                return;
+                        }
+
+                        form.setAttribute('aria-busy', 'true');
+
+                        if (submitButton) {
+                                submitButton.disabled = true;
+                                submitButton.textContent =
+                                        form.dataset.submittingLabel ??
+                                        defaultSubmitLabel;
+                        }
+
+                        try {
+                                const { error } = await authClient.signIn.email({
+                                        email,
+                                        password,
+                                });
+
+                                if (error) {
+                                        showError(
+                                                form.dataset.errorMessage ??
+                                                        'Unable to sign in.',
+                                        );
+                                        return;
+                                }
+
+                                showSuccess(
+                                        form.dataset.successMessage ??
+                                                'Signed in successfully.',
+                                );
+                        } catch {
+                                showError(
+                                        form.dataset.unexpectedMessage ??
+                                                form.dataset.errorMessage ??
+                                                'Unable to sign in.',
+                                );
+                        } finally {
+                                form.removeAttribute('aria-busy');
+
+                                if (submitButton) {
+                                        submitButton.disabled = false;
+                                        submitButton.textContent =
+                                                defaultSubmitLabel;
+                                }
+                        }
+                });
+        }
+</script>

@@ -7,9 +7,10 @@ interface Props {
 	locale: 'es' | 'en';
 	messages: Translations;
 	homeIsCurrent?: boolean;
+	localePath?: string;
 }
 
-const { locale, messages: t, homeIsCurrent = true } = Astro.props;
+const { locale, messages: t, homeIsCurrent = true, localePath = '' } = Astro.props;
 const homeUrl = getRelativeLocaleUrl(locale, '');
 ---
 
@@ -38,7 +39,7 @@ const homeUrl = getRelativeLocaleUrl(locale, '');
 				</a>
 			</nav>
 		</div>
-		<LanguageSwitcher locale={locale} messages={t} />
+		<LanguageSwitcher locale={locale} messages={t} path={localePath} />
 	</header>
 
 	<!-- Área principal de contenido -->
